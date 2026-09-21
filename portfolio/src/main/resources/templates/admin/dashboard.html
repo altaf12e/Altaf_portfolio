@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Portfolio CMS</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{admin/layout :: admin-header}"></div>
+
+<div class="admin-layout">
+    <div th:replace="~{admin/layout :: admin-sidebar}"></div>
+
+    <main class="admin-content">
+        <div class="section-header">
+            <div>
+                <h1 class="section-title">Analytics &amp; System Overview</h1>
+                <p class="section-subtitle">Real-time statistics, visitor metrics, and pending communications.</p>
+            </div>
+            <div>
+                <a th:href="@{/admin/projects/new}" class="btn btn-primary btn-sm">+ Add Project</a>
+            </div>
+        </div>
+
+        <div class="alert alert-success" th:if="${successMessage != null}" th:text="${successMessage}"></div>
+
+        <!-- Metrics Grid -->
+        <div class="admin-stats-grid">
+            <div class="admin-stat-card">
+                <div class="val" th:text="${totalProjects}">6</div>
+                <div class="lbl">Total Projects</div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="val" th:text="${totalLikes}">140</div>
+                <div class="lbl">Community Likes</div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="val" style="color: var(--danger);" th:text="${unreadMessages}">2</div>
+                <div class="lbl">Unread Inquiries</div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="val" th:text="${totalCertificates != null ? totalCertificates : 0}">3</div>
+                <div class="lbl"><a th:href="@{/admin/certificates}" style="color: inherit; text-decoration: none;">Certificates ↗</a></div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="val" th:text="${totalSkills}">18</div>
+                <div class="lbl">Technical Skills</div>
+            </div>
+            <div class="admin-stat-card">
+                <div class="val" th:text="${totalVisits}">1420</div>
+                <div class="lbl">Total Visits</div>
+            </div>
+        </div>
+
+        <!-- Recent Contact Inquiries -->
+        <div class="section-header" style="margin-top: 36px; margin-bottom: 16px;">
+            <h2 style="font-size: 1.3rem;">Recent Contact Inquiries</h2>
+            <a th:href="@{/admin/messages}" class="btn btn-outline btn-sm">View All Inquiries &rarr;</a>
+        </div>
+
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Sender</th>
+                    <th>Subject</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="msg : ${recentMessages}">
+                    <td th:text="${msg.createdAt != null ? #temporals.format(msg.createdAt, 'MMM dd, HH:mm') : '-'}">Sep 14, 18:30</td>
+                    <td>
+                        <strong th:text="${msg.name}">Sender</strong><br>
+                        <small style="color: var(--text-dim);" th:text="${msg.email}">email</small>
+                    </td>
+                    <td th:text="${msg.subject != null ? msg.subject : 'General Inquiry'}">Subject</td>
+                    <td>
+                        <span class="badge-status badge-unread" th:if="${!msg.readStatus}">New</span>
+                        <span class="badge-status badge-read" th:if="${msg.readStatus}">Read</span>
+                    </td>
+                    <td>
+                        <a th:href="@{/admin/messages}" class="btn btn-outline btn-sm">View</a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(recentMessages)}">
+                    <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 24px;">No messages received yet.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>
+

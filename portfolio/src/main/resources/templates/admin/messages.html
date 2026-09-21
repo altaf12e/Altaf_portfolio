@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inquiries Inbox | Portfolio CMS</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{admin/layout :: admin-header}"></div>
+
+<div class="admin-layout">
+    <div th:replace="~{admin/layout :: admin-sidebar}"></div>
+
+    <main class="admin-content">
+        <div class="section-header">
+            <div>
+                <h1 class="section-title">Visitor Messages &amp; Inquiries</h1>
+                <p class="section-subtitle">Read, reply, and organize messages received through the portfolio contact form.</p>
+            </div>
+        </div>
+
+        <div class="alert alert-success" th:if="${successMessage != null}" th:text="${successMessage}"></div>
+
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div th:each="msg : ${messages}"
+                 style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow-sm);"
+                 th:styleappend="${!msg.readStatus} ? 'border-left: 4px solid var(--danger);' : ''">
+                
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                    <div>
+                        <span class="badge-status badge-unread" th:if="${!msg.readStatus}">Unread</span>
+                        <span class="badge-status badge-read" th:if="${msg.readStatus}">Read</span>
+                        <h3 style="font-size: 1.15rem; margin-top: 6px;" th:text="${msg.subject != null and not #strings.isEmpty(msg.subject) ? msg.subject : 'General Inquiry'}">Subject</h3>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">
+                            From: <strong th:text="${msg.name}">Name</strong> &lt;<a th:href="'mailto:' + ${msg.email}" th:text="${msg.email}">email</a>&gt;
+                        </p>
+                    </div>
+                    <div style="font-size: 0.85rem; color: var(--text-dim);"
+                         th:text="${msg.createdAt != null ? #temporals.format(msg.createdAt, 'MMMM dd, yyyy HH:mm') : '-'}">
+                        Sep 14, 2026
+                    </div>
+                </div>
+
+                <div style="background: var(--bg-surface-elevated); padding: 16px; border-radius: var(--radius-sm); font-size: 0.95rem; color: var(--text); line-height: 1.6; margin-bottom: 16px; white-space: pre-line;"
+                     th:text="${msg.message}">
+                    Message content...
+                </div>
+
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <a th:href="'mailto:' + ${msg.email} + '?subject=Re: ' + ${msg.subject != null ? msg.subject : 'Portfolio Inquiry'}"
+                       class="btn btn-primary btn-sm">
+                        ✉️ Quick Reply via Email
+                    </a>
+
+                    <form th:if="${!msg.readStatus}" th:action="@{'/admin/messages/' + ${msg.id} + '/read'}" method="post" style="display: inline;">
+                        <button type="submit" class="btn btn-outline btn-sm">Mark as Read</button>
+                    </form>
+
+                    <form th:action="@{'/admin/messages/' + ${msg.id} + '/delete'}" method="post"
+                          onsubmit="return confirm('Delete this message?');" style="display: inline; margin-left: auto;">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </div>
+            </div>
+
+            <div th:if="${#lists.isEmpty(messages)}" style="background: var(--bg-surface); padding: 32px; border-radius: var(--radius); text-align: center; color: var(--text-muted);">
+                No inquiries in the inbox yet.
+            </div>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>
+

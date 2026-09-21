@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills Management | Portfolio CMS</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{admin/layout :: admin-header}"></div>
+
+<div class="admin-layout">
+    <div th:replace="~{admin/layout :: admin-sidebar}"></div>
+
+    <main class="admin-content">
+        <div class="section-header">
+            <div>
+                <h1 class="section-title">Skills &amp; Technologies</h1>
+                <p class="section-subtitle">Manage tech stack proficiencies and categories.</p>
+            </div>
+        </div>
+
+        <div class="alert alert-success" th:if="${successMessage != null}" th:text="${successMessage}"></div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1.6fr; gap: 32px; align-items: start;">
+            <!-- Add Skill Form -->
+            <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow-sm);">
+                <h3 style="font-size: 1.15rem; margin-bottom: 16px;">+ Add New Skill</h3>
+
+                <form th:action="@{/admin/skills/save}" th:object="${newSkill}" method="post" class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Skill Name *</label>
+                        <input type="text" id="name" th:field="*{name}" placeholder="e.g. Kotlin or Spring Cloud" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Category *</label>
+                        <select id="category" th:field="*{category}">
+                            <option value="Backend">Backend</option>
+                            <option value="Frontend">Frontend</option>
+                            <option value="Database">Database</option>
+                            <option value="DevOps & Cloud">DevOps & Cloud</option>
+                            <option value="Core Tools">Core Tools</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="proficiency">Proficiency (0 - 100%): <span id="prof-val">85%</span></label>
+                        <input type="range" id="proficiency" th:field="*{proficiency}" min="10" max="100" value="85"
+                               oninput="document.getElementById('prof-val').innerText = this.value + '%'">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="yearsOfExperience">Years of Experience</label>
+                        <input type="number" id="yearsOfExperience" th:field="*{yearsOfExperience}" min="0" max="40" value="3">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Add Skill</button>
+                </form>
+            </div>
+
+            <!-- Existing Skills Table -->
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                    <tr>
+                        <th>Skill</th>
+                        <th>Category</th>
+                        <th>Proficiency</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="skill : ${skills}">
+                        <td><strong th:text="${skill.name}">Java</strong></td>
+                        <td th:text="${skill.category}">Backend</td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div class="skill-progress-bar" style="width: 100px;">
+                                    <div class="skill-progress-fill" th:style="'width: ' + ${skill.proficiency} + '%'"></div>
+                                </div>
+                                <span th:text="${skill.proficiency} + '%'">90%</span>
+                            </div>
+                        </td>
+                        <td>
+                            <form th:action="@{'/admin/skills/delete/' + ${skill.id}}" method="post"
+                                  onsubmit="return confirm('Delete this skill?');">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>
+

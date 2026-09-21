@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found | Altaf Hussain</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<section class="section" style="min-height: 60vh; display: flex; align-items: center; justify-content: center; text-align: center;">
+    <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 48px 36px; max-width: 540px; box-shadow: var(--shadow);">
+        <div style="font-size: 3.5rem; margin-bottom: 12px;">🛸</div>
+        <h1 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; color: var(--primary);" th:text="${status != null ? status : '404'}">404</h1>
+        <h2 style="font-size: 1.3rem; margin-bottom: 16px;" th:text="${error != null ? error : 'Page Not Found'}">Page Not Found</h2>
+        <p style="color: var(--text-muted); font-size: 0.98rem; line-height: 1.6; margin-bottom: 28px;"
+           th:text="${message != null and not #strings.isEmpty(message) ? message : 'The page you are looking for might have been moved, deleted, or does not exist.'}">
+            The page you are looking for might have been moved, deleted, or does not exist.
+        </p>
+        <div style="display: flex; gap: 14px; justify-content: center;">
+            <a th:href="@{/}" class="btn btn-primary">Return to Homepage &rarr;</a>
+            <a th:href="@{/projects}" class="btn btn-outline">Explore Projects</a>
+        </div>
+    </div>
+</section>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>
+

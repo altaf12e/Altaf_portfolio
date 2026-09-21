@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${project.title} + ' | ' + ${fullName}">Project Details</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<section class="section" style="max-width: 850px;">
+    <div style="margin-bottom: 24px;">
+        <a th:href="@{/projects}" style="font-size: 0.9rem; font-weight: 600;">&larr; Back to all projects</a>
+    </div>
+
+    <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; padding: 36px; box-shadow: var(--shadow);">
+        <span class="project-category-badge" th:text="${project.category}">Backend</span>
+        <h1 style="font-size: 2.4rem; font-weight: 800; margin: 12px 0 8px;" th:text="${project.title}">Project Title</h1>
+        <h3 style="color: var(--primary); font-weight: 600; font-size: 1.15rem; margin-bottom: 20px;" th:text="${project.subtitle}">Project Subtitle</h3>
+
+        <div style="margin-bottom: 24px;">
+            <img th:src="${project.imageUrl}" alt="Project banner"
+                 style="width: 100%; max-height: 400px; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--border);"
+                 onerror="this.src='https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80'">
+        </div>
+
+        <div style="margin-bottom: 24px;">
+            <h4 style="font-size: 1.1rem; margin-bottom: 8px;">Architecture Overview</h4>
+            <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.7;" th:text="${project.description}">Full overview text...</p>
+        </div>
+
+        <div th:if="${project.fullDetails != null and not #strings.isEmpty(project.fullDetails)}" style="margin-bottom: 28px;">
+            <h4 style="font-size: 1.1rem; margin-bottom: 8px;">Technical Deep Dive &amp; Implementation</h4>
+            <div style="color: var(--text-muted); font-size: 1rem; line-height: 1.7; white-space: pre-line;" th:text="${project.fullDetails}">
+                Full details...
+            </div>
+        </div>
+
+        <div style="margin-bottom: 28px;">
+            <h4 style="font-size: 1.1rem; margin-bottom: 10px;">Technologies Used</h4>
+            <div class="tags">
+                <span class="tag" th:each="tech : ${project.techStack}" th:text="${tech}">Tech</span>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 16px; align-items: center; border-top: 1px solid var(--border); padding-top: 24px;">
+            <a th:href="${project.githubUrl}" target="_blank" rel="noopener" class="btn btn-outline">View GitHub Code ↗</a>
+            <a th:href="${project.liveUrl}" target="_blank" rel="noopener" class="btn btn-primary"
+               th:if="${project.liveUrl != null and project.liveUrl != '#'}">Live Application ↗</a>
+            
+            <button type="button" class="like-btn" style="margin-left: auto;" th:attr="data-project-id=${project.id}">
+                ❤️ Like (<span class="like-count" th:text="${project.likesCount}">0</span>)
+            </button>
+        </div>
+    </div>
+</section>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>
+

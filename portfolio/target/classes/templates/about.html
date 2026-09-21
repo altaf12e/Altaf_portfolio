@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'About & Skills | ' + ${fullName}">About &amp; Skills</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<!-- Bio Header -->
+<section class="section">
+    <div class="section-header">
+        <div>
+            <h1 class="section-title">About Me</h1>
+            <p class="section-subtitle" th:text="${title}">Senior Software Engineer</p>
+        </div>
+    </div>
+    <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; box-shadow: var(--shadow-sm); margin-bottom: 30px;">
+        <p style="font-size: 1.08rem; color: var(--text-muted); line-height: 1.8; white-space: pre-line;"
+           th:text="${profile != null ? profile.aboutText : 'Passionate software engineer building resilient software.'}">
+            Bio text...
+        </p>
+    </div>
+</section>
+
+<!-- Skills Matrix Grouped by Category -->
+<section class="section">
+    <div class="section-header">
+        <div>
+            <h2 class="section-title">Technical Skills Matrix</h2>
+            <p class="section-subtitle">Proficiencies developed through professional experience and enterprise delivery.</p>
+        </div>
+    </div>
+
+    <div class="skills-category-group" th:each="entry : ${skillsGrouped}">
+        <h3 class="category-header">
+            <span class="category-icon">⚡</span>
+            <span th:text="${entry.key}">Backend</span>
+        </h3>
+
+        <div class="skills-grid">
+            <div class="skill-card" th:each="skill : ${entry.value}">
+                <div class="skill-info">
+                    <span class="skill-name" th:text="${skill.name}">Java</span>
+                    <span class="skill-pct" th:text="${skill.proficiency} + '%'">90%</span>
+                </div>
+                <div class="skill-progress-bar">
+                    <div class="skill-progress-fill" th:attr="data-width=${skill.proficiency}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Career Experience Timeline -->
+<section class="section">
+    <div class="section-header">
+        <div>
+            <h2 class="section-title">Career Milestones</h2>
+            <p class="section-subtitle">Engineering roles and distributed systems contributions.</p>
+        </div>
+    </div>
+
+    <div class="timeline">
+        <div class="timeline-item" th:each="exp : ${experiences}">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+                <div class="timeline-header">
+                    <h3 class="timeline-role" th:text="${exp.role}">Senior Backend Engineer</h3>
+                    <span class="timeline-period" th:text="${exp.period}">2023 - Present</span>
+                </div>
+                <div class="timeline-company">
+                    <span th:text="${exp.company}">Apex Cloud</span> • <span th:text="${exp.location}">San Francisco, CA</span>
+                </div>
+                <p class="timeline-desc" th:text="${exp.description}">Role description and highlights...</p>
+                <div class="timeline-tech">
+                    <strong>Tech:</strong> <span th:text="${exp.technologies}">Java, Spring Boot, Kafka, Docker</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Education & Certifications -->
+<section class="section">
+    <div class="section-header">
+        <div>
+            <h2 class="section-title">Education &amp; Certifications</h2>
+            <p class="section-subtitle">Academic degrees and industry certifications.</p>
+        </div>
+    </div>
+
+    <div class="timeline">
+        <div class="timeline-item" th:each="edu : ${educations}">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+                <div class="timeline-header">
+                    <h3 class="timeline-role" th:text="${edu.degree}">B.S. in Computer Science</h3>
+                    <span class="timeline-period" th:text="${edu.year}">2019</span>
+                </div>
+                <div class="timeline-company" th:text="${edu.institution}">University</div>
+                <p class="timeline-desc" th:text="${edu.details}">Graduated with Honors...</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>

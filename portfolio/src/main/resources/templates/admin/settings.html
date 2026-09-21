@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Settings | Portfolio CMS</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{admin/layout :: admin-header}"></div>
+
+<div class="admin-layout">
+    <div th:replace="~{admin/layout :: admin-sidebar}"></div>
+
+    <main class="admin-content" style="max-width: 800px;">
+        <div class="section-header">
+            <div>
+                <h1 class="section-title">Profile &amp; Site Settings</h1>
+                <p class="section-subtitle">Customize portfolio identity, contact links, and bio text.</p>
+            </div>
+        </div>
+
+        <div class="alert alert-success" th:if="${successMessage != null}" th:text="${successMessage}"></div>
+
+        <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; box-shadow: var(--shadow-sm); margin-bottom: 28px;">
+            <form th:action="@{/admin/settings/save}" th:object="${profileSettings}" method="post" class="contact-form">
+                <input type="hidden" th:field="*{id}">
+                <input type="hidden" th:field="*{totalVisits}">
+
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" th:field="*{fullName}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="title">Professional Headline / Role</label>
+                    <input type="text" id="title" th:field="*{title}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="tagline">Hero Tagline</label>
+                    <input type="text" id="tagline" th:field="*{tagline}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="aboutText">About &amp; Bio Summary</label>
+                    <textarea id="aboutText" rows="5" th:field="*{aboutText}" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Public Email</label>
+                    <input type="email" id="email" th:field="*{email}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="text" id="phone" th:field="*{phone}">
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" th:field="*{location}">
+                </div>
+
+                <div class="form-group">
+                    <label for="githubUrl">GitHub Profile URL</label>
+                    <input type="text" id="githubUrl" th:field="*{githubUrl}">
+                </div>
+
+                <div class="form-group">
+                    <label for="linkedinUrl">LinkedIn Profile URL</label>
+                    <input type="text" id="linkedinUrl" th:field="*{linkedinUrl}">
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 10px; margin: 16px 0;">
+                    <input type="checkbox" id="availableForHire" th:field="*{availableForHire}" style="width: auto;">
+                    <label for="availableForHire" style="cursor: pointer;">
+                        Display "Available for Hire" green status badge on homepage
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="margin-top: 10px;">
+                    Save Profile Changes
+                </button>
+            </form>
+        </div>
+
+        <!-- Resume PDF Document Management Section -->
+        <div id="resume-section" style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; box-shadow: var(--shadow-sm);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+                <div>
+                    <h2 style="font-size: 1.4rem; font-weight: 700; color: var(--text); margin-bottom: 4px;">
+                        📄 Resume PDF Management
+                    </h2>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">
+                        Upload your official Resume PDF. Visitors on the public Resume page can view and download this file.
+                    </p>
+                </div>
+                <div th:if="${resumeDocument != null}">
+                    <a th:href="@{/resume/view}" target="_blank" class="btn btn-outline btn-sm">
+                        👁️ Preview Current PDF ↗
+                    </a>
+                </div>
+            </div>
+
+            <div class="alert alert-success" th:if="${resumeSuccessMessage != null}" th:text="${resumeSuccessMessage}"></div>
+            <div class="alert alert-danger" th:if="${resumeErrorMessage != null}" th:text="${resumeErrorMessage}"></div>
+
+            <!-- Current Uploaded Resume Information -->
+            <div style="background: var(--bg-surface-elevated); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 18px; margin-bottom: 24px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+                    <div style="display: flex; align-items: center; gap: 14px;">
+                        <span style="font-size: 2rem;">📑</span>
+                        <div>
+                            <div style="font-size: 1.05rem; font-weight: 600; color: var(--text);">
+                                <span th:if="${resumeDocument != null}" th:text="${resumeDocument.fileName}">Altaf_Hussain_Resume.pdf</span>
+                                <span th:unless="${resumeDocument != null}" style="color: var(--text-muted);">No custom resume uploaded yet</span>
+                            </div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 3px;" th:if="${resumeDocument != null}">
+                                <span>File size: </span>
+                                <strong th:text="${#numbers.formatDecimal(resumeDocument.fileSize / 1024.0, 1, 1)} + ' KB'">120 KB</strong>
+                                <span style="margin: 0 6px;">&bull;</span>
+                                <span>Uploaded: </span>
+                                <span th:text="${#temporals.format(resumeDocument.uploadedAt, 'MMM dd, yyyy - hh:mm a')}">Sep 18, 2026</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="status-badge" style="margin-bottom: 0;" th:if="${resumeDocument != null}">
+                            <span class="pulse-dot"></span>
+                            Active Resume File
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upload / Replace Resume PDF Form -->
+            <form th:action="@{/admin/resume/upload}" method="post" enctype="multipart/form-data">
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="resumeFile" style="display: block; font-weight: 600; margin-bottom: 8px; color: var(--text);">
+                        Select New Resume PDF to Upload / Replace:
+                    </label>
+                    <input type="file" id="resumeFile" name="resumeFile" accept="application/pdf, .pdf" required
+                           style="width: 100%; padding: 12px; background: var(--bg); border: 1px dashed var(--border-light); border-radius: var(--radius-sm); color: var(--text); cursor: pointer;">
+                    <small style="display: block; color: var(--text-muted); margin-top: 8px; font-size: 0.82rem;">
+                        <i class="fas fa-info-circle"></i> Only PDF files (*.pdf) are allowed. Maximum size: 15MB. Uploading a new PDF replaces the previous file immediately.
+                    </small>
+                </div>
+
+                <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                    <button type="submit" class="btn btn-primary">
+                        📤 Upload / Replace Resume PDF
+                    </button>
+                    <a th:href="@{/resume}" target="_blank" class="btn btn-outline">
+                        View Public Resume Page ↗
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Work Experience Management Section -->
+        <div id="experience-section" style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; box-shadow: var(--shadow-sm); margin-top: 32px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+                <div>
+                    <h2 style="font-size: 1.4rem; font-weight: 700; color: var(--text); margin-bottom: 4px;">
+                        💼 Work Experience Management
+                    </h2>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">
+                        Manage your career roles for the Web Resume view and About page. You can delete demo records or add your real roles.
+                    </p>
+                </div>
+            </div>
+
+            <div class="alert alert-success" th:if="${experienceSuccessMessage != null}" th:text="${experienceSuccessMessage}"></div>
+            <div class="alert alert-danger" th:if="${experienceErrorMessage != null}" th:text="${experienceErrorMessage}"></div>
+
+            <!-- Existing Experiences List -->
+            <div class="table-responsive" style="margin-bottom: 24px;">
+                <table class="data-table">
+                    <thead>
+                    <tr>
+                        <th>Role / Position</th>
+                        <th>Company &amp; Location</th>
+                        <th>Period</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="exp : ${experiences}">
+                        <td>
+                            <strong th:text="${exp.role}" style="color: var(--text);">Role</strong>
+                        </td>
+                        <td>
+                            <span th:text="${exp.company}">Company</span>
+                            <small style="color: var(--text-dim); display: block;" th:if="${exp.location != null}" th:text="${exp.location}">Location</small>
+                        </td>
+                        <td>
+                            <span class="badge-status" style="background: var(--primary-soft); color: var(--primary);" th:text="${exp.period}">2023 - Present</span>
+                        </td>
+                        <td>
+                            <form th:action="@{'/admin/experience/delete/' + ${exp.id}}" method="post" onsubmit="return confirm('Remove this experience record?');" style="display: inline;">
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(experiences)}">
+                        <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 24px;">No work experiences listed. Add your role below.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Add Experience Form -->
+            <div style="background: var(--bg-surface-elevated); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px;">
+                <h3 style="font-size: 1.05rem; margin-bottom: 14px;">+ Add New Work Experience</h3>
+                <form th:action="@{/admin/experience/save}" th:object="${newExperience}" method="post" class="contact-form">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                        <div class="form-group">
+                            <label for="role">Role / Job Title *</label>
+                            <input type="text" id="role" th:field="*{role}" placeholder="e.g. Software Developer" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Company / Organization *</label>
+                            <input type="text" id="company" th:field="*{company}" placeholder="e.g. Apex Tech" required>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                        <div class="form-group">
+                            <label for="period">Period / Dates</label>
+                            <input type="text" id="period" th:field="*{period}" placeholder="e.g. 2023 - Present">
+                        </div>
+                        <div class="form-group">
+                            <label for="expLocation">Location</label>
+                            <input type="text" id="expLocation" th:field="*{location}" placeholder="e.g. Lucknow, India / Remote">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="expDescription">Description</label>
+                        <textarea id="expDescription" th:field="*{description}" rows="2" placeholder="Key responsibilities and achievements..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="technologies">Technologies Used</label>
+                        <input type="text" id="technologies" th:field="*{technologies}" placeholder="e.g. Java, Spring Boot, MySQL">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm">+ Save Work Experience</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Education Management Section -->
+        <div id="education-section" style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; box-shadow: var(--shadow-sm); margin-top: 32px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+                <div>
+                    <h2 style="font-size: 1.4rem; font-weight: 700; color: var(--text); margin-bottom: 4px;">
+                        🎓 Education Management
+                    </h2>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">
+                        Manage degree, college/university, and academic qualifications.
+                    </p>
+                </div>
+            </div>
+
+            <div class="alert alert-success" th:if="${educationSuccessMessage != null}" th:text="${educationSuccessMessage}"></div>
+
+            <!-- Existing Education List -->
+            <div class="table-responsive" style="margin-bottom: 24px;">
+                <table class="data-table">
+                    <thead>
+                    <tr>
+                        <th>Degree / Certificate</th>
+                        <th>Institution</th>
+                        <th>Year</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="edu : ${educations}">
+                        <td>
+                            <strong th:text="${edu.degree}" style="color: var(--text);">Degree</strong>
+                        </td>
+                        <td>
+                            <span th:text="${edu.institution}">Institution</span>
+                        </td>
+                        <td>
+                            <span th:text="${edu.year}">2024</span>
+                        </td>
+                        <td>
+                            <form th:action="@{'/admin/education/delete/' + ${edu.id}}" method="post" onsubmit="return confirm('Remove this education entry?');" style="display: inline;">
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(educations)}">
+                        <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 24px;">No education entries found. Add your college/degree below.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Add Education Form -->
+            <div style="background: var(--bg-surface-elevated); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px;">
+                <h3 style="font-size: 1.05rem; margin-bottom: 14px;">+ Add New Education</h3>
+                <form th:action="@{/admin/education/save}" th:object="${newEducation}" method="post" class="contact-form">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                        <div class="form-group">
+                            <label for="degree">Degree / Qualification *</label>
+                            <input type="text" id="degree" th:field="*{degree}" placeholder="e.g. B.Tech in Computer Science" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="institution">College / University / School *</label>
+                            <input type="text" id="institution" th:field="*{institution}" placeholder="e.g. AKTU / Tech University" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="year">Year / Duration</label>
+                        <input type="text" id="year" th:field="*{year}" placeholder="e.g. 2021 - 2025">
+                    </div>
+                    <div class="form-group">
+                        <label for="details">Additional Details / Highlights</label>
+                        <input type="text" id="details" th:field="*{details}" placeholder="e.g. First Class with Distinction, GPA 8.5/10">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm">+ Save Education</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>
+

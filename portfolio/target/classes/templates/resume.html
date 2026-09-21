@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'Resume | ' + ${fullName}">Resume | Altaf Hussain</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<div class="resume-container" style="max-width: 1040px; margin: 0 auto; padding: 30px 20px;">
+    <!-- Top Action Bar & View Switcher -->
+    <div class="resume-toolbar">
+        <div class="resume-tab-group">
+            <button type="button" id="btn-view-pdf" class="resume-tab-btn active" onclick="showResumeTab('pdf')">
+                <i class="fas fa-file-pdf"></i> Uploaded PDF
+            </button>
+            <button type="button" id="btn-view-web" class="resume-tab-btn" onclick="showResumeTab('web')">
+                <i class="fas fa-file-alt"></i> Web View
+            </button>
+        </div>
+
+        <div class="resume-toolbar-actions">
+            <span class="resume-doc-badge" th:if="${resumeDocument != null}">
+                <i class="fas fa-check-circle" style="color: var(--success);"></i>
+                <span th:text="${resumeDocument.fileName}">Resume.pdf</span>
+                <span class="resume-doc-size" th:if="${resumeDocument.fileSize != null}" th:text="'(' + ${resumeDocument.fileSize / 1024} + ' KB)'">(120 KB)</span>
+            </span>
+
+            <a th:href="@{/resume/view}" target="_blank" class="btn btn-outline btn-sm" title="Open PDF in Fullscreen / New Tab">
+                <i class="fas fa-external-link-alt"></i> Fullscreen
+            </a>
+            <a th:href="@{/resume/download}" class="btn btn-primary btn-sm" title="Download Resume PDF">
+                <i class="fas fa-download"></i> Download PDF
+            </a>
+        </div>
+    </div>
+
+    <!-- 1. Embedded PDF Viewer (Default & Auto-Updating) -->
+    <div id="resume-pdf-view" class="resume-pane">
+        <div class="pdf-viewer-card">
+            <iframe th:src="@{/resume/view#toolbar=1&navpanes=0}"
+                    class="pdf-iframe-embed"
+                    title="Altaf Hussain - Uploaded Resume PDF">
+                <div style="padding: 40px; text-align: center; color: var(--text-muted);">
+                    <p>Your browser does not support inline PDF viewing.</p>
+                    <p style="margin-top: 12px;">
+                        <a th:href="@{/resume/view}" target="_blank" class="btn btn-primary">Open PDF Directly</a>
+                        <a th:href="@{/resume/download}" class="btn btn-outline">Download PDF</a>
+                    </p>
+                </div>
+            </iframe>
+        </div>
+    </div>
+
+    <!-- 2. Web HTML Resume (Secondary Tab) -->
+    <div id="resume-web-view" class="resume-pane" style="display: none;">
+        <div class="web-resume-card">
+            <!-- Resume Header -->
+            <header class="resume-header">
+                <h1 th:text="${fullName}">Altaf Hussain</h1>
+                <h2 th:text="${title}">Senior Full Stack &amp; Java Engineer</h2>
+                <div class="resume-contacts">
+                    <span th:text="'📍 ' + ${profile.location}">📍 San Francisco, CA</span>
+                    <span th:text="'✉️ ' + ${profile.email}">✉️ email@example.com</span>
+                    <span th:text="'📞 ' + ${profile.phone}">📞 +1 (555) 349-8201</span>
+                    <span><a th:href="${profile.githubUrl}" target="_blank">GitHub Profile</a></span>
+                    <span><a th:href="${profile.linkedinUrl}" target="_blank">LinkedIn Profile</a></span>
+                </div>
+            </header>
+
+            <!-- Professional Summary -->
+            <section class="resume-section">
+                <h3 class="resume-section-title">Professional Summary</h3>
+                <p style="color: var(--text); line-height: 1.7;" th:text="${profile.aboutText}">
+                    Software engineer with experience in Java, Spring Boot, and full-stack web development.
+                </p>
+            </section>
+
+            <!-- Work Experience -->
+            <section class="resume-section" th:if="${experiences != null and not #lists.isEmpty(experiences)}">
+                <h3 class="resume-section-title">Work Experience</h3>
+                <div th:each="exp : ${experiences}" style="margin-bottom: 24px;">
+                    <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                        <h4 style="font-size: 1.15rem; font-weight: 700; color: var(--text);" th:text="${exp.role}">Role</h4>
+                        <span style="font-size: 0.9rem; font-weight: 600; color: var(--primary);" th:text="${exp.period}">Period</span>
+                    </div>
+                    <div style="font-weight: 600; color: var(--text-muted); margin-bottom: 8px;">
+                        <span th:text="${exp.company}">Company</span> — <span th:text="${exp.location}">Location</span>
+                    </div>
+                    <p style="color: var(--text); font-size: 0.95rem; line-height: 1.6; margin-bottom: 8px;" th:text="${exp.description}">
+                        Description...
+                    </p>
+                    <div style="font-size: 0.88rem; color: var(--text-muted);" th:if="${exp.technologies != null}">
+                        <strong>Core Tech:</strong> <span th:text="${exp.technologies}">Tech</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Technical Skills Breakdown -->
+            <section class="resume-section" th:if="${skillsGrouped != null}">
+                <h3 class="resume-section-title">Technical Skills</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;">
+                    <div th:each="entry : ${skillsGrouped}">
+                        <strong style="color: var(--primary); font-size: 0.95rem;" th:text="${entry.key} + ':'">Backend:</strong>
+                        <div style="font-size: 0.9rem; color: var(--text); margin-top: 4px;">
+                            <span th:each="s, stat : ${entry.value}" th:text="${s.name} + (${stat.last} ? '' : ', ')">Skill</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Education & Certifications -->
+            <section class="resume-section" th:if="${educations != null and not #lists.isEmpty(educations)}">
+                <h3 class="resume-section-title">Education</h3>
+                <div th:each="edu : ${educations}" style="margin-bottom: 16px;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <strong style="font-size: 1.05rem;" th:text="${edu.degree}">Degree</strong>
+                        <span style="color: var(--text-muted); font-size: 0.9rem;" th:text="${edu.year}">Year</span>
+                    </div>
+                    <div style="color: var(--text-muted); font-size: 0.95rem;" th:text="${edu.institution}">Institution</div>
+                    <div style="font-size: 0.88rem; color: var(--text-dim);" th:if="${edu.details != null}" th:text="${edu.details}">Details</div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<script>
+function showResumeTab(tab) {
+    const pdfView = document.getElementById('resume-pdf-view');
+    const webView = document.getElementById('resume-web-view');
+    const btnPdf = document.getElementById('btn-view-pdf');
+    const btnWeb = document.getElementById('btn-view-web');
+
+    if (tab === 'pdf') {
+        pdfView.style.display = 'block';
+        webView.style.display = 'none';
+        btnPdf.classList.add('active');
+        btnWeb.classList.remove('active');
+    } else {
+        pdfView.style.display = 'none';
+        webView.style.display = 'block';
+        btnWeb.classList.add('active');
+        btnPdf.classList.remove('active');
+    }
+}
+</script>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>

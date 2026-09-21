@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'Engineering Blog | ' + ${fullName}">Engineering Blog</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<section class="section">
+    <div class="section-header">
+        <div>
+            <h1 class="section-title">Developer Blog &amp; Notes</h1>
+            <p class="section-subtitle">Articles on distributed systems, Spring Boot internals, and backend patterns.</p>
+        </div>
+    </div>
+
+    <div class="blog-grid">
+        <article class="blog-card" th:each="post : ${posts}">
+            <div class="blog-meta">
+                <span th:text="${post.publishedDate}">2026-09-14</span> • 
+                <span th:text="${post.readTimeMinutes} + ' min read'">5 min read</span> • 
+                <span th:text="${post.viewCount} + ' views'">120 views</span>
+            </div>
+            
+            <h3 class="blog-title">
+                <a th:href="@{'/blog/' + ${post.slug}}" th:text="${post.title}">Demystifying Spring Boot 3 &amp; Virtual Threads</a>
+            </h3>
+            
+            <p class="blog-summary" th:text="${post.summary}">
+                Summary of the article...
+            </p>
+
+            <div class="tags" style="margin-top: auto; margin-bottom: 16px;">
+                <span class="tag" th:each="tag : ${#strings.arraySplit(post.tags, ',')}" th:text="${#strings.trim(tag)}">Java</span>
+            </div>
+
+            <div>
+                <a th:href="@{'/blog/' + ${post.slug}}" class="btn btn-outline btn-sm">Read Article &rarr;</a>
+            </div>
+        </article>
+    </div>
+</section>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>
+

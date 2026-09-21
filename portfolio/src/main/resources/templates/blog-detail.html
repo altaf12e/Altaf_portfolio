@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${post.title} + ' | ' + ${fullName}">Article</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<article class="section" style="max-width: 800px;">
+    <div style="margin-bottom: 24px;">
+        <a th:href="@{/blog}" style="font-weight: 600; font-size: 0.92rem;">&larr; Back to all articles</a>
+    </div>
+
+    <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 40px; box-shadow: var(--shadow);">
+        <div class="blog-meta" style="margin-bottom: 14px;">
+            <span th:text="${post.publishedDate}">2026-09-14</span> • 
+            <span th:text="${post.readTimeMinutes} + ' min read'">5 min read</span> • 
+            <span th:text="${post.viewCount} + ' views'">120 views</span>
+        </div>
+
+        <h1 style="font-size: 2.3rem; font-weight: 800; line-height: 1.25; margin-bottom: 20px;" th:text="${post.title}">
+            Article Title
+        </h1>
+
+        <div class="tags" style="margin-bottom: 30px;">
+            <span class="tag" th:each="tag : ${#strings.arraySplit(post.tags, ',')}" th:text="${#strings.trim(tag)}">Java</span>
+        </div>
+
+        <div style="color: var(--text); font-size: 1.06rem; line-height: 1.85; white-space: pre-line; border-top: 1px solid var(--border); padding-top: 24px;"
+             th:text="${post.content}">
+            Article content goes here...
+        </div>
+    </div>
+</article>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>
+

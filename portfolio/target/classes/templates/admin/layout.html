@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Admin Header Fragment -->
+<div th:fragment="admin-header" class="navbar" style="border-bottom: 1px solid var(--border);">
+    <div class="navbar-inner">
+        <a th:href="@{/admin/dashboard}" class="brand">
+            <span class="brand-dot" style="background: var(--accent);"></span>
+            <span>CMS Admin Portal</span>
+        </a>
+
+        <div style="display: flex; align-items: center; gap: 16px;">
+            <a th:href="@{/}" target="_blank" style="font-size: 0.9rem; font-weight: 500;">
+                View Live Site ↗
+            </a>
+
+            <form th:action="@{/admin/logout}" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-outline btn-sm" style="cursor: pointer;">
+                    Log Out
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Admin Sidebar Fragment -->
+<aside th:fragment="admin-sidebar" class="admin-sidebar">
+    <a th:href="@{/admin/dashboard}" th:classappend="${currentUri == '/admin/dashboard' or currentUri == '/admin' ? 'active' : ''}">
+        <span>📊 Dashboard</span>
+    </a>
+    <a th:href="@{/admin/projects}" th:classappend="${#strings.startsWith(currentUri, '/admin/projects') ? 'active' : ''}">
+        <span>🚀 Projects</span>
+    </a>
+    <a th:href="@{/admin/skills}" th:classappend="${#strings.startsWith(currentUri, '/admin/skills') ? 'active' : ''}">
+        <span>⚡ Skills</span>
+    </a>
+    <a th:href="@{/admin/certificates}" th:classappend="${#strings.startsWith(currentUri, '/admin/certificates') ? 'active' : ''}">
+        <span>📜 Certificates</span>
+    </a>
+    <a th:href="@{/admin/messages}" th:classappend="${#strings.startsWith(currentUri, '/admin/messages') ? 'active' : ''}">
+        <span>✉️ Inquiries</span>
+        <span class="admin-badge" th:if="${unreadMessages != null and unreadMessages > 0}" th:text="${unreadMessages}">2</span>
+    </a>
+    <a th:href="@{/admin/settings}" th:classappend="${#strings.startsWith(currentUri, '/admin/settings') and !#strings.startsWith(currentUri, '/admin/resume') ? 'active' : ''}">
+        <span>⚙️ Profile Settings</span>
+    </a>
+    <a th:href="@{/admin/settings#resume-section}">
+        <span>📄 Resume PDF</span>
+    </a>
+</aside>
+
+</body>
+</html>
+

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title th:text="'Contact | ' + ${fullName}">
+        Contact | Altaf Hussain
+    </title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+
+<section class="section">
+
+    <div class="section-header">
+
+        <div>
+
+            <h1 class="section-title">Let's Connect</h1>
+
+            <p class="section-subtitle">
+                Interested in working together or have questions about a project?
+                Send a message below.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="contact-container">
+
+
+        <!-- ================= CONTACT INFORMATION ================= -->
+
+        <div class="contact-card-box">
+
+            <h3 style="font-size: 1.3rem; margin-bottom: 12px;">
+                Contact Information
+            </h3>
+
+            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
+
+                I'm currently available for backend engineering roles,
+                cloud consulting, and select full-stack advisory engagements.
+
+            </p>
+
+
+            <div class="contact-info-list">
+
+
+                <!-- Email -->
+
+                <div class="contact-info-item">
+
+                    <span class="contact-info-icon">✉️</span>
+
+                    <div class="contact-info-text">
+
+                        <strong>Email</strong>
+
+                        <a th:href="'mailto:' + ${profile.email}"
+                           th:text="${profile.email}">
+                            altafhussain078692@gmail.com
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Phone -->
+
+                <div class="contact-info-item">
+
+                    <span class="contact-info-icon">📞</span>
+
+                    <div class="contact-info-text">
+
+                        <strong>Phone</strong>
+
+                        <span th:text="${profile.phone}">
+                            +91-8002590676
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Location -->
+
+                <div class="contact-info-item">
+
+                    <span class="contact-info-icon">📍</span>
+
+                    <div class="contact-info-text">
+
+                        <strong>Location</strong>
+
+                        <span th:text="${profile.location}">
+                            Lucknow, Uttar Pradesh
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Profiles -->
+
+                <div class="contact-info-item">
+
+                    <span class="contact-info-icon">🌐</span>
+
+                    <div class="contact-info-text">
+
+                        <strong>Profiles</strong>
+
+                        <div style="display: flex; gap: 12px; margin-top: 4px;">
+
+                            <a href="https://github.com/altaf12e"
+                               target="_blank"
+                               rel="noopener">
+                                GitHub ↗
+                            </a>
+
+                            <a href="https://www.linkedin.com/in/altaf-hussain-75b9ab329/"
+                               target="_blank"
+                               rel="noopener">
+                                LinkedIn ↗
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= CONTACT FORM ================= -->
+
+        <div class="contact-card-box">
+
+
+            <!-- Success Message -->
+
+            <div id="success-message"
+                 class="alert alert-success"
+                 style="display: none;">
+
+                Thank you! Your message has been sent successfully.
+
+            </div>
+
+
+            <!-- Error Message -->
+
+            <div id="error-message"
+                 class="alert alert-danger"
+                 style="display: none;">
+
+                Something went wrong. Please try again.
+
+            </div>
+
+
+            <!-- Contact Form -->
+
+            <form id="contact-form"
+                  th:action="@{/contact}"
+                  th:object="${contactMessage}"
+                  method="post"
+                  class="contact-form">
+
+
+                <!-- Web3Forms Access Key -->
+
+                <input type="hidden"
+                       name="access_key"
+                       value="cbcab26b-3277-463b-a648-3c807d1669d5">
+
+
+                <!-- Email Subject -->
+
+                <input type="hidden"
+                       name="from_name"
+                       value="Altaf Portfolio">
+
+
+                <!-- Name -->
+
+                <div class="form-group">
+
+                    <label for="name">
+                        Your Name *
+                    </label>
+
+                    <input type="text"
+                           id="name"
+                           th:field="*{name}"
+                           placeholder="Jane Doe"
+                           required>
+
+                    <span class="error"
+                          th:if="${#fields.hasErrors('name')}"
+                          th:errors="*{name}">
+                    </span>
+
+                </div>
+
+
+                <!-- Email -->
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Your Email Address *
+                    </label>
+
+                    <input type="email"
+                           id="email"
+                           th:field="*{email}"
+                           placeholder="jane.doe@company.com"
+                           required>
+
+                    <span class="error"
+                          th:if="${#fields.hasErrors('email')}"
+                          th:errors="*{email}">
+                    </span>
+
+                </div>
+
+
+                <!-- Subject -->
+
+                <div class="form-group">
+
+                    <label for="subject">
+                        Subject
+                    </label>
+
+                    <input type="text"
+                           id="subject"
+                           th:field="*{subject}"
+                           placeholder="Software Engineering Project Discussion">
+
+                </div>
+
+
+                <!-- Message -->
+
+                <div class="form-group">
+
+                    <label for="message">
+                        Message *
+                    </label>
+
+                    <textarea id="message"
+                              rows="6"
+                              th:field="*{message}"
+                              placeholder="Tell me about your project, timeline, or open role..."
+                              required></textarea>
+
+                    <span class="error"
+                          th:if="${#fields.hasErrors('message')}"
+                          th:errors="*{message}">
+                    </span>
+
+                </div>
+
+
+                <!-- Submit Button -->
+
+                <button type="submit"
+                        class="btn btn-primary"
+                        style="align-self: flex-start;">
+
+                    🚀 Send Message
+
+                </button>
+
+
+            </form>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+
+<!-- ================= WEB3FORMS JAVASCRIPT ================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form = document.getElementById("contact-form");
+
+    const successMessage = document.getElementById("success-message");
+
+    const errorMessage = document.getElementById("error-message");
+
+
+    form.addEventListener("submit", async function (e) {
+
+        e.preventDefault();
+
+
+        const submitButton = form.querySelector("button[type='submit']");
+
+
+        submitButton.disabled = true;
+
+        submitButton.innerHTML = "⏳ Sending...";
+
+
+        const formData = new FormData(form);
+
+
+        try {
+            // 1. Save directly into Spring Boot database (shows in Admin Dashboard)
+            const res = await fetch("/api/v1/contact", {
+                method: "POST",
+                body: formData
+            });
+
+            if (!res.ok) {
+                throw new Error("HTTP " + res.status);
+            }
+
+            // 2. Also send to Web3Forms for external email notification
+            try {
+                await fetch("https://api.web3forms.com/submit", {
+                    method: "POST",
+                    body: formData
+                });
+            } catch (err) {
+                console.warn("Web3Forms external notification:", err);
+            }
+
+            successMessage.textContent =
+                "Thank you! Your message has been sent successfully. I'll get back to you promptly.";
+            successMessage.style.display = "block";
+            errorMessage.style.display = "none";
+            form.reset();
+
+        } catch (error) {
+            errorMessage.textContent =
+                "Unable to send message. Please check your connection and try again.";
+            errorMessage.style.display = "block";
+            successMessage.style.display = "none";
+        }
+
+
+        submitButton.disabled = false;
+
+        submitButton.innerHTML = "🚀 Send Message";
+
+
+    });
+
+});
+
+</script>
+
+
+</body>
+
+</html>

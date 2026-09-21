@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Form | Portfolio CMS</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{admin/layout :: admin-header}"></div>
+
+<div class="admin-layout">
+    <div th:replace="~{admin/layout :: admin-sidebar}"></div>
+
+    <main class="admin-content" style="max-width: 800px;">
+        <div class="section-header">
+            <div>
+                <h1 class="section-title" th:text="${project.id != null ? 'Edit Project' : 'Add New Project'}">Add Project</h1>
+                <p class="section-subtitle">Fill in project metadata, technologies, and repositories.</p>
+            </div>
+            <a th:href="@{/admin/projects}" class="btn btn-outline btn-sm">&larr; Back to List</a>
+        </div>
+
+        <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; box-shadow: var(--shadow-sm);">
+            <form th:action="@{/admin/projects/save}" th:object="${project}" method="post" class="contact-form">
+                <input type="hidden" th:field="*{id}">
+                <input type="hidden" th:field="*{likesCount}">
+                <input type="hidden" th:field="*{viewCount}">
+
+                <div class="form-group">
+                    <label for="title">Project Title *</label>
+                    <input type="text" id="title" th:field="*{title}" placeholder="e.g. Distributed Task Orchestrator" required>
+                    <span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="subtitle">Short Subtitle</label>
+                    <input type="text" id="subtitle" th:field="*{subtitle}" placeholder="e.g. Event-driven scheduling engine">
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Category *</label>
+                    <select id="category" th:field="*{category}">
+                        <option value="Backend">Backend</option>
+                        <option value="Fullstack">Fullstack</option>
+                        <option value="Cloud / DevOps">Cloud / DevOps</option>
+                        <option value="AI / Tools">AI / Tools</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="techStackRaw">Technologies (Comma separated)</label>
+                    <input type="text" id="techStackRaw" name="techStackRaw" th:value="${techStackInput}"
+                           placeholder="Java 21, Spring Boot 3, Kafka, Docker, PostgreSQL">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Short Description *</label>
+                    <textarea id="description" rows="3" th:field="*{description}"
+                              placeholder="Brief description for cards..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="fullDetails">Full Technical Deep-Dive (Optional)</label>
+                    <textarea id="fullDetails" rows="6" th:field="*{fullDetails}"
+                              placeholder="Detailed architectural case study, challenges solved, benchmarks..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="imageUrl">Thumbnail Image URL</label>
+                    <input type="text" id="imageUrl" th:field="*{imageUrl}"
+                           placeholder="https://images.unsplash.com/... or /images/myproject.png">
+                </div>
+
+                <div class="form-group">
+                    <label for="githubUrl">GitHub Repository URL</label>
+                    <input type="text" id="githubUrl" th:field="*{githubUrl}" placeholder="https://github.com/...">
+                </div>
+
+                <div class="form-group">
+                    <label for="liveUrl">Live Demo URL</label>
+                    <input type="text" id="liveUrl" th:field="*{liveUrl}" placeholder="https://demo.example.com or #">
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
+                    <input type="checkbox" id="featured" th:field="*{featured}" style="width: auto;">
+                    <label for="featured" style="cursor: pointer;">Feature this project on the homepage</label>
+                </div>
+
+                <div style="display: flex; gap: 12px; margin-top: 20px;">
+                    <button type="submit" class="btn btn-primary">Save Project</button>
+                    <a th:href="@{/admin/projects}" class="btn btn-outline">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>
+

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Navbar Fragment -->
+<div th:fragment="navbar" class="navbar">
+    <div class="navbar-inner">
+        <a th:href="@{/}" class="brand">
+            <span class="brand-dot"></span>
+            <span th:text="${fullName != null ? fullName : 'Altaf Hussain'}">Altaf Hussain</span>
+        </a>
+
+        <nav class="nav-links" id="nav-links">
+            <a th:href="@{/}" th:classappend="${currentUri == '/' ? 'active' : ''}">Home</a>
+            <a th:href="@{/projects}" th:classappend="${#strings.startsWith(currentUri, '/projects') ? 'active' : ''}">Projects</a>
+            <a th:href="@{/about}" th:classappend="${currentUri == '/about' ? 'active' : ''}">About &amp; Skills</a>
+            <a th:href="@{/certificates}" th:classappend="${#strings.startsWith(currentUri, '/certificates') ? 'active' : ''}">Certificates</a>
+            <a th:href="@{/resume}" th:classappend="${currentUri == '/resume' ? 'active' : ''}">Resume</a>
+            <a th:href="@{/blog}" th:classappend="${#strings.startsWith(currentUri, '/blog') ? 'active' : ''}">Blog</a>
+            <a th:href="@{/contact}" th:classappend="${currentUri == '/contact' ? 'active' : ''}">Contact</a>
+            
+            <!-- <a th:href="@{/admin}" class="nav-admin" title="Admin CMS Portal">
+                ⚙️ Admin
+            </a> -->
+
+            <button type="button" class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle theme">
+                ☀️ Light
+            </button>
+        </nav>
+
+        <button type="button" class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Toggle navigation menu">
+            ☰
+        </button>
+    </div>
+</div>
+
+<!-- Footer Fragment -->
+<div th:fragment="footer">
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div>
+                <p>&copy; <span th:text="${#dates.year(#dates.createNow())}">2026</span>
+                    <strong th:text="${fullName != null ? fullName : 'Altaf Hussain'}">Altaf Hussain</strong>.
+                    Engineered with Spring Boot 3 &amp; Thymeleaf.
+                </p>
+                <p style="font-size: 0.8rem; color: var(--text-dim); margin-top: 4px;">
+                    Visits: <span th:text="${profile != null ? profile.totalVisits : 1420}">1,420</span> • 
+                    Status: <span th:text="${profile != null and profile.availableForHire ? 'Available for hire' : 'Employed'}">Available for hire</span>
+                </p>
+            </div>
+            <div class="footer-links">
+                <a th:href="${github != null ? github : 'https://github.com/altaf12e'}" target="_blank" rel="noopener">GitHub</a>
+                <a th:href="${linkedin != null ? linkedin : 'https://www.linkedin.com/in/altaf-hussain-75b9ab329/'}" target="_blank" rel="noopener">LinkedIn</a>
+                <a th:href="'mailto:' + ${email != null ? email : 'altafhussain078692@gmail.com'}">Email</a>
+                <a th:href="@{/admin}">Admin Login</a>
+            </div>
+        </div>
+    </footer>
+    <script th:src="@{/js/app.js}"></script>
+</div>
+
+</body>
+</html>

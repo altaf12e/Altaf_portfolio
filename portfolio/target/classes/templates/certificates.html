@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'Certifications & Licenses | ' + ${fullName}">Certifications &amp; Licenses | Altaf Hussain</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<section class="section" style="padding-top: 40px;">
+    <div class="section-header">
+        <div>
+            <h1 class="section-title">Licenses &amp; Certifications</h1>
+            <p class="section-subtitle">Verified professional credentials, cloud architectures, and specialized proficiencies.</p>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <span class="cert-count-badge" th:text="${totalCertificates} + ' Certified Credentials'">3 Certified Credentials</span>
+        </div>
+    </div>
+
+    <!-- Certificates Grid -->
+    <div class="certificates-grid" th:if="${not #lists.isEmpty(certificates)}">
+        <div class="certificate-card" th:each="cert : ${certificates}">
+            <div class="cert-card-header">
+                <div class="cert-org-icon">
+                    <span th:if="${#strings.containsIgnoreCase(cert.issuingOrganization, 'aws') or #strings.containsIgnoreCase(cert.issuingOrganization, 'amazon')}">☁️</span>
+                    <span th:unless="${#strings.containsIgnoreCase(cert.issuingOrganization, 'aws') or #strings.containsIgnoreCase(cert.issuingOrganization, 'amazon')}">📜</span>
+                </div>
+                <div class="cert-org-info">
+                    <span class="cert-org-name" th:text="${cert.issuingOrganization}">Issuing Organization</span>
+                    <span class="cert-issue-date" th:text="'Issued ' + ${cert.issueDate}">Issued Aug 2024</span>
+                </div>
+            </div>
+
+            <div class="cert-card-body">
+                <h2 class="cert-title" th:text="${cert.title}">Oracle Certified Professional: Java SE 17 Developer</h2>
+
+                <div class="cert-meta" th:if="${cert.credentialId != null and !cert.credentialId.isBlank()}">
+                    <span class="cert-meta-label">Credential ID:</span>
+                    <code class="cert-meta-val" th:text="${cert.credentialId}">OCP-9482710</code>
+                </div>
+
+                <div class="cert-meta" th:if="${cert.expirationDate != null and !cert.expirationDate.isBlank()}">
+                    <span class="cert-meta-label">Expires:</span>
+                    <span class="cert-meta-val" th:text="${cert.expirationDate}">No Expiration</span>
+                </div>
+
+                <p class="cert-desc" th:if="${cert.description != null and !cert.description.isBlank()}" th:text="${cert.description}">
+                    Certification details and covered skills...
+                </p>
+
+                <div class="cert-file-badge" th:if="${cert.hasFile()}">
+                    <span th:if="${cert.isPdf()}"><i class="fas fa-file-pdf" style="color: #f85149;"></i> PDF Document</span>
+                    <span th:if="${cert.isImage()}"><i class="fas fa-file-image" style="color: #58a6ff;"></i> Image Document</span>
+                    <span th:unless="${cert.isPdf() or cert.isImage()}"><i class="fas fa-file"></i> Document</span>
+                    <span class="cert-file-size" th:if="${cert.fileSize != null}" th:text="'(' + ${cert.formattedFileSize} + ')'">(120 KB)</span>
+                </div>
+            </div>
+
+            <div class="cert-card-footer">
+                <div class="cert-actions">
+                    <a th:if="${cert.hasFile()}" th:href="@{'/certificates/view/' + ${cert.id}}" target="_blank" class="btn btn-outline btn-sm" title="View certificate inline">
+                        <i class="fas fa-eye"></i> View
+                    </a>
+                    <a th:if="${cert.hasFile()}" th:href="@{'/certificates/download/' + ${cert.id}}" class="btn btn-primary btn-sm" title="Download certificate file">
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                    <a th:if="${cert.credentialUrl != null and !cert.credentialUrl.isBlank()}" th:href="${cert.credentialUrl}" target="_blank" rel="noopener" class="btn btn-outline btn-sm" title="Verify online credential">
+                        <i class="fas fa-external-link-alt"></i> Verify
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" th:if="${#lists.isEmpty(certificates)}" style="text-align: center; padding: 60px 20px; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); margin-top: 20px;">
+        <div style="font-size: 3rem; margin-bottom: 12px;">📜</div>
+        <h3 style="font-size: 1.3rem; margin-bottom: 8px;">No Certificates Uploaded Yet</h3>
+        <p style="color: var(--text-muted); max-width: 450px; margin: 0 auto 20px;">
+            Certifications uploaded via the Admin Portal will automatically appear here.
+        </p>
+        <a th:href="@{/admin/certificates}" class="btn btn-primary btn-sm">Upload Certificate &rarr;</a>
+    </div>
+</section>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>
+

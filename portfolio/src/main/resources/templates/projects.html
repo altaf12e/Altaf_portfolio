@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'Projects | ' + ${fullName}">Projects | Altaf Hussain</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<section class="section">
+    <div class="section-header">
+        <div>
+            <h1 class="section-title">Projects Showcase</h1>
+            <p class="section-subtitle">Browse my full catalog of distributed systems, web platforms, and open-source tools.</p>
+        </div>
+    </div>
+
+    <!-- Filter & Live Search Toolbar -->
+    <div class="filter-bar">
+        <div class="filter-pills">
+            <button type="button" class="filter-pill"
+                    th:classappend="${selectedCategory == 'All' or selectedCategory == null ? 'active' : ''}"
+                    data-filter="All">All Projects</button>
+            <button type="button" class="filter-pill"
+                    th:classappend="${selectedCategory == 'Backend' ? 'active' : ''}"
+                    data-filter="Backend">Backend</button>
+            <button type="button" class="filter-pill"
+                    th:classappend="${selectedCategory == 'Fullstack' ? 'active' : ''}"
+                    data-filter="Fullstack">Fullstack</button>
+            <button type="button" class="filter-pill"
+                    th:classappend="${selectedCategory == 'Cloud / DevOps' ? 'active' : ''}"
+                    data-filter="Cloud / DevOps">Cloud / DevOps</button>
+            <button type="button" class="filter-pill"
+                    th:classappend="${selectedCategory == 'AI / Tools' ? 'active' : ''}"
+                    data-filter="AI / Tools">AI / Tools</button>
+        </div>
+
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="project-search-input" placeholder="Search projects or tech..."
+                   th:value="${searchQuery != null ? searchQuery : ''}">
+        </div>
+    </div>
+
+    <!-- Projects Grid -->
+    <div class="projects-grid">
+        <div class="project-card" th:each="project : ${projects}" th:attr="data-category=${project.category}">
+            <img class="project-thumbnail" th:src="${project.imageUrl}" alt="Project preview"
+                 onerror="this.src='https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80'">
+            
+            <div class="project-body">
+                <span class="project-category-badge" th:text="${project.category}">Backend</span>
+                <h4 class="project-title" th:text="${project.title}">Project title</h4>
+                <div class="project-subtitle" th:text="${project.subtitle}">Subtitle</div>
+                <p class="project-desc" th:text="${project.description}">Project description</p>
+                
+                <div class="tags">
+                    <span class="tag" th:each="tech : ${project.techStack}" th:text="${tech}">Tech</span>
+                </div>
+
+                <div class="project-footer">
+                    <div class="project-links">
+                        <a th:href="${project.githubUrl}" target="_blank" rel="noopener">Code ↗</a>
+                        <a th:href="${project.liveUrl}" target="_blank" rel="noopener"
+                           th:if="${project.liveUrl != null and project.liveUrl != '#'}">Live Demo ↗</a>
+                        <a th:href="@{'/projects/' + ${project.id}}">Details &rarr;</a>
+                    </div>
+
+                    <button type="button" class="like-btn" th:attr="data-project-id=${project.id}" title="Like this project">
+                        ❤️ <span class="like-count" th:text="${project.likesCount}">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>
