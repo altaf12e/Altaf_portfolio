@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +32,7 @@ public class AdminController {
     private final ResumeService resumeService;
     private final CertificateService certificateService;
     private final ExperienceService experienceService;
+    private final AdminUserService adminUserService;
 
     public AdminController(ProjectService projectService,
                            SkillService skillService,
@@ -39,7 +41,8 @@ public class AdminController {
                            BlogService blogService,
                            ResumeService resumeService,
                            CertificateService certificateService,
-                           ExperienceService experienceService) {
+                           ExperienceService experienceService,
+                           AdminUserService adminUserService) {
         this.projectService = projectService;
         this.skillService = skillService;
         this.contactService = contactService;
@@ -48,6 +51,7 @@ public class AdminController {
         this.resumeService = resumeService;
         this.certificateService = certificateService;
         this.experienceService = experienceService;
+        this.adminUserService = adminUserService;
     }
 
     @ModelAttribute
@@ -226,6 +230,7 @@ public class AdminController {
         model.addAttribute("resumeDocument", resumeService.getLatestResume().orElse(null));
         model.addAttribute("experiences", experienceService.getAllExperiences());
         model.addAttribute("educations", experienceService.getAllEducations());
+        model.addAttribute("adminUsername", adminUserService.getPrimaryAdminUsername());
         if (!model.containsAttribute("newExperience")) {
             model.addAttribute("newExperience", new Experience());
         }
@@ -233,6 +238,25 @@ public class AdminController {
             model.addAttribute("newEducation", new Education());
         }
         return "admin/settings";
+    }
+
+    @PostMapping("/change-password")
+    public String changePassword(@RequestParam("currentPassword") String currentPassword,
+                                 @RequestParam("newPassword") String newPassword,
+                                 @RequestParam("confirmPassword") String confirmPassword,
+                                 Principal principal,
+                                 RedirectAttributes redirectAttributes) {
+        String username = (principal != null) ? principal.getName() : adminUserService.getPrimaryAdminUsername();
+        try {
+            adminUserService.changePassword(username, currentPassword, newPassword, confirmPassword);
+            redirectAttributes.addFlashAttribute("passwordSuccessMessage",
+                    "Admin password changed successfully! Please remember your new password for your next login.");
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("passwordErrorMessage", e.getMessage());
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("passwordErrorMessage", "Failed to update password: " + e.getMessage());
+        }
+        return "redirect:/admin/settings#security-section";
     }
 
     @GetMapping("/resume")

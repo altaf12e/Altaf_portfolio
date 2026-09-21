@@ -307,5 +307,76 @@ class PortfolioApplicationTests {
 
         assertTrue(certificateService.getCertificateById(saved.getId()).isEmpty());
     }
+
+    @Autowired
+    private com.portfolio.app.service.AdminUserService adminUserService;
+
+    @Autowired
+    private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
+
+    @Test
+    void testAdminUserServiceValidationRules() {
+        // Mismatched passwords
+        assertThrows(IllegalArgumentException.class, () ->
+                adminUserService.changePassword("admin", "admin123", "newPassword123", "mismatchPassword"));
+
+        // Password too short (< 6 chars)
+        assertThrows(IllegalArgumentException.class, () ->
+                adminUserService.changePassword("admin", "admin123", "123", "123"));
+
+        // Wrong current password
+        assertThrows(IllegalArgumentException.class, () ->
+                adminUserService.changePassword("admin", "totallyWrongPass", "newSecurePass123", "newSecurePass123"));
+    }
+
+    @Test
+    @org.springframework.security.test.context.support.WithMockUser(username = "admin", roles = {"ADMIN"})
+    void testAdminChangePasswordPostEndpointWrongCurrentPassword() throws Exception {
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/admin/change-password")
+                        .param("currentPassword", "wrongPass123")
+                        .param("newPassword", "brandNewPass123")
+                        .param("confirmPassword", "brandNewPass123")
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl("/admin/settings#security-section"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash().attributeExists("passwordErrorMessage"));
+    }
+
+    @Test
+    @org.springframework.security.test.context.support.WithMockUser(username = "admin", roles = {"ADMIN"})
+    void testAdminChangePasswordPostEndpointMismatch() throws Exception {
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/admin/change-password")
+                        .param("currentPassword", "admin123")
+                        .param("newPassword", "brandNewPass123")
+                        .param("confirmPassword", "differentPass456")
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl("/admin/settings#security-section"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash().attributeExists("passwordErrorMessage"));
+    }
+
+    @Test
+    @org.springframework.security.test.context.support.WithMockUser(username = "admin", roles = {"ADMIN"})
+    void testAdminChangePasswordEndToEndAndRevert() throws Exception {
+        // Change from current password to updated password
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post("/admin/change-password")
+                        .param("currentPassword", "admin123")
+                        .param("newPassword", "superSecret2026")
+                        .param("confirmPassword", "superSecret2026")
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl("/admin/settings#security-section"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash().attributeExists("passwordSuccessMessage"));
+
+        // Verify in DB that BCrypt hash matches new password
+        var adminOpt = adminUserService.findByUsername("admin");
+        assertTrue(adminOpt.isPresent());
+        assertTrue(passwordEncoder.matches("superSecret2026", adminOpt.get().getPassword()));
+        assertFalse(passwordEncoder.matches("admin123", adminOpt.get().getPassword()));
+
+        // Revert password back to admin123 to keep test environment clean
+        adminUserService.changePassword("admin", "superSecret2026", "admin123", "admin123");
+        assertTrue(passwordEncoder.matches("admin123", adminUserService.findByUsername("admin").get().getPassword()));
+    }
 }
 

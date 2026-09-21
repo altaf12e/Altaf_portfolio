@@ -27,6 +27,7 @@ public class DataInitializer implements CommandLineRunner {
     private final ProfileSettingsRepository profileSettingsRepository;
     private final com.portfolio.app.service.ResumeService resumeService;
     private final com.portfolio.app.service.CertificateService certificateService;
+    private final com.portfolio.app.service.AdminUserService adminUserService;
 
     public DataInitializer(
             ProjectRepository projectRepository,
@@ -38,7 +39,8 @@ public class DataInitializer implements CommandLineRunner {
             ContactMessageRepository contactMessageRepository,
             ProfileSettingsRepository profileSettingsRepository,
             com.portfolio.app.service.ResumeService resumeService,
-            com.portfolio.app.service.CertificateService certificateService) {
+            com.portfolio.app.service.CertificateService certificateService,
+            com.portfolio.app.service.AdminUserService adminUserService) {
 
         this.projectRepository = projectRepository;
         this.skillRepository = skillRepository;
@@ -50,11 +52,13 @@ public class DataInitializer implements CommandLineRunner {
         this.profileSettingsRepository = profileSettingsRepository;
         this.resumeService = resumeService;
         this.certificateService = certificateService;
+        this.adminUserService = adminUserService;
     }
 
     @Override
     public void run(String... args) {
 
+        adminUserService.initDefaultAdminIfNotPresent();
         initProfile();
         initSkills();
         initProjects();
