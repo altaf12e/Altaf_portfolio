@@ -354,7 +354,10 @@
                     <label for="currentPassword" style="display: block; font-weight: 600; margin-bottom: 6px; color: var(--text);">
                         Current Password *
                     </label>
-                    <input type="password" id="currentPassword" name="currentPassword" placeholder="Enter current password" required autocomplete="current-password">
+                    <input type="password" id="currentPassword" name="currentPassword" placeholder="Enter current active password" required autocomplete="off">
+                    <small style="display: block; color: var(--text-muted); margin-top: 4px; font-size: 0.8rem;">
+                        Aapka abhi ka active password (agar pehli baar change kar rahe hain to <code>admin123</code>, aur agar pehle change kar chuke hain to wahi naya password dalein).
+                    </small>
                 </div>
 
                 <div class="form-group" style="margin-bottom: 16px;">
