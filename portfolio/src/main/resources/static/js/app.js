@@ -10,7 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initProjectLikes();
     initProjectFilters();
     initSkillProgressBars();
+    initStatsCounter();
     initTypingAnimation();
+    initEmailActions();
 });
 
 /* ================= Theme Toggle ================= */
@@ -156,7 +158,7 @@ function initProjectFilters() {
 
 /* ================= Animated Skill Progress Bars ================= */
 function initSkillProgressBars() {
-    const bars = document.querySelectorAll('.skill-progress-fill');
+    const bars = document.querySelectorAll('.skill-progress-fill, .skill-bar-fill');
     if (!bars.length) return;
 
     const observer = new IntersectionObserver((entries) => {
@@ -175,6 +177,32 @@ function initSkillProgressBars() {
         bar.style.width = '0%';
         observer.observe(bar);
     });
+}
+
+/* ================= Animated Stats Counter ================= */
+function initStatsCounter() {
+    const counts = document.querySelectorAll('.stat .count');
+    if (!counts.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const target = +entry.target.getAttribute('data-target');
+                if (!isNaN(target)) {
+                    let current = 0;
+                    const step = Math.max(1, Math.ceil(target / 25));
+                    const timer = setInterval(() => {
+                        current = Math.min(current + step, target);
+                        entry.target.textContent = current + '+';
+                        if (current >= target) clearInterval(timer);
+                    }, 40);
+                }
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+
+    counts.forEach(el => observer.observe(el));
 }
 
 /* ================= Typing Animation for Hero Subtitle ================= */
@@ -217,5 +245,76 @@ function initTypingAnimation() {
         setTimeout(type, typeSpeed);
     }
     type();
+}
+
+/* ================= Email Action & Toast Handler ================= */
+function initEmailActions() {
+    const emailButtons = document.querySelectorAll('.email-action-btn, a[href^="mailto:"]');
+
+    emailButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const href = btn.getAttribute('href');
+            if (!href || !href.startsWith('mailto:')) return;
+
+            // Extract email and subject
+            const mailtoMatch = href.match(/^mailto:([^?]+)(?:\?subject=([^&]*))?/);
+            const targetEmail = mailtoMatch ? decodeURIComponent(mailtoMatch[1]) : 'altafhussain078692@gmail.com';
+            const subject = mailtoMatch && mailtoMatch[2] ? decodeURIComponent(mailtoMatch[2]) : 'Portfolio Inquiry - Altaf Hussain';
+
+            // Show helpful fallback toast in case OS has no desktop mail client configured
+            showEmailToast(targetEmail, subject);
+        });
+    });
+}
+
+function showEmailToast(email, subject) {
+    const existingToast = document.getElementById('email-toast');
+    if (existingToast) existingToast.remove();
+
+    const gmailWebUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(subject)}`;
+
+    const toast = document.createElement('div');
+    toast.id = 'email-toast';
+    toast.className = 'email-toast';
+    toast.innerHTML = `
+        <div class="email-toast-header">
+            <span>✉️ <strong>Opening Mail App...</strong></span>
+            <button type="button" class="email-toast-close" title="Close" aria-label="Close">✕</button>
+        </div>
+        <p class="email-toast-body">Attempting to open your default mail app. If it didn't open:</p>
+        <div class="email-toast-actions">
+            <a href="${gmailWebUrl}" target="_blank" rel="noopener" class="email-toast-btn primary">
+                <i class="fab fa-google"></i> Open Gmail Web ↗
+            </a>
+            <button type="button" class="email-toast-btn secondary copy-email-btn">
+                📋 Copy Email
+            </button>
+        </div>
+    `;
+
+    document.body.appendChild(toast);
+
+    // Close button
+    toast.querySelector('.email-toast-close').addEventListener('click', () => {
+        toast.remove();
+    });
+
+    // Copy email button
+    const copyBtn = toast.querySelector('.copy-email-btn');
+    copyBtn.addEventListener('click', () => {
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(email).then(() => {
+                copyBtn.innerHTML = '✓ Copied!';
+                setTimeout(() => { copyBtn.innerHTML = '📋 Copy Email'; }, 2500);
+            });
+        }
+    });
+
+    // Auto dismiss after 10s
+    setTimeout(() => {
+        if (document.body.contains(toast)) {
+            toast.remove();
+        }
+    }, 10000);
 }
 

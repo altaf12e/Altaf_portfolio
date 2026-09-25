@@ -52,6 +52,10 @@
                 <a th:href="${github != null ? github : 'https://github.com/altaf12e'}" target="_blank" rel="noopener">GitHub</a>
                 <a th:href="${linkedin != null ? linkedin : 'https://www.linkedin.com/in/altaf-hussain-75b9ab329/'}" target="_blank" rel="noopener">LinkedIn</a>
                 <a th:href="'mailto:' + ${email != null ? email : 'altafhussain078692@gmail.com'}">Email</a>
+                <a th:href="'mailto:' + ${email != null ? email : 'altafhussain078692@gmail.com'} + '?subject=Portfolio%20Inquiry%20-%20Altaf%20Hussain'"
+                   href="mailto:altafhussain078692@gmail.com?subject=Portfolio%20Inquiry%20-%20Altaf%20Hussain"
+                   class="email-action-btn"
+                   title="Send email directly to Altaf">Email</a>
                 <a th:href="@{/admin}">Admin Login</a>
             </div>
         </div>

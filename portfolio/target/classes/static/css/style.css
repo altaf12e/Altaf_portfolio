@@ -1670,4 +1670,337 @@ a:hover {
     }
 }
 
+/* ===================================================================
+   Vercel Portfolio Matched - About, Skills & Journey Sections
+   =================================================================== */
+
+.bg-alt {
+    background: var(--bg-surface);
+}
+
+#about .section-title,
+#skills .section-title,
+#timeline .section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+#about .section-title::after,
+#skills .section-title::after,
+#timeline .section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--primary);
+    border-radius: 2px;
+    margin: 0.5rem auto 0;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+}
+
+.about-text p {
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    font-size: 1.02rem;
+}
+
+.about-details {
+    list-style: none;
+    margin-bottom: 2rem;
+    padding: 0;
+}
+
+.about-details li {
+    color: var(--text-muted);
+    margin-bottom: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+}
+
+.about-details i {
+    color: var(--primary);
+    width: 20px;
+    font-size: 1.05rem;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.stat {
+    background: var(--bg-surface);
+    padding: 1.6rem 1.2rem;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid var(--border);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat:hover {
+    transform: translateY(-4px);
+    border-color: var(--primary);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.15);
+}
+
+.stat h3 {
+    font-size: 2.3rem;
+    color: var(--primary);
+    font-weight: 800;
+    margin-bottom: 0.35rem;
+}
+
+.stat p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.skills-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+}
+
+.skills-icons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.skill-card,
+.skill-icon-card {
+    background: var(--bg-surface);
+    padding: 1.3rem 0.8rem;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid var(--border);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.skill-card:hover,
+.skill-icon-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+    box-shadow: 0 8px 20px rgba(88, 166, 255, 0.25);
+}
+
+.skill-card i,
+.skill-icon-card i {
+    font-size: 2.2rem;
+    color: var(--primary);
+    margin-bottom: 0.45rem;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.skill-card:hover i,
+.skill-icon-card:hover i {
+    transform: scale(1.1);
+}
+
+.skill-card p,
+.skill-icon-card p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin: 0;
+}
+
+.skills-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+}
+
+.skill-bar-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.skill-bar-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.45rem;
+    font-size: 0.92rem;
+    color: var(--text);
+    font-weight: 500;
+}
+
+.skill-bar-track {
+    height: 8px;
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.skill-bar-fill {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: 4px;
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.timeline-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-weight: 600;
+    display: inline-block;
+}
+.timeline-badge.education { background: rgba(88, 166, 255, 0.15); color: var(--primary); }
+.timeline-badge.milestone { background: rgba(188, 140, 255, 0.15); color: var(--accent); }
+.timeline-badge.work { background: rgba(63, 185, 80, 0.15); color: var(--success); }
+.timeline-badge.achievement { background: rgba(210, 153, 34, 0.15); color: var(--warning); }
+.timeline-badge.goal { background: rgba(244, 63, 94, 0.15); color: var(--heart); }
+
+@media (max-width: 900px) {
+    .about-grid,
+    .skills-container {
+        grid-template-columns: 1fr;
+        gap: 2.2rem;
+    }
+    .skills-icons {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 540px) {
+    .skills-icons {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .about-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+}
+
+/* ================= Email Helper & Toast ================= */
+.about-details a.email-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.about-details a.email-link:hover {
+    color: var(--primary);
+    text-decoration: underline;
+}
+
+.email-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+    z-index: 99999;
+    max-width: 360px;
+    width: calc(100vw - 48px);
+    animation: emailToastSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes emailToastSlideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.email-toast-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    color: var(--text);
+    font-size: 0.95rem;
+}
+
+.email-toast-close {
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0 4px;
+    line-height: 1;
+    transition: var(--transition);
+}
+
+.email-toast-close:hover {
+    color: var(--text);
+}
+
+.email-toast-body {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin: 0 0 12px 0;
+    line-height: 1.4;
+}
+
+.email-toast-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.email-toast-btn {
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid transparent;
+    transition: var(--transition);
+}
+
+.email-toast-btn.primary {
+    background: var(--primary);
+    color: #ffffff;
+}
+
+.email-toast-btn.primary:hover {
+    background: var(--primary-hover);
+    color: #ffffff;
+}
+
+.email-toast-btn.secondary {
+    background: var(--bg-surface);
+    color: var(--text);
+    border-color: var(--border);
+}
+
+.email-toast-btn.secondary:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
 

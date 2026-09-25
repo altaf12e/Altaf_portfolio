@@ -95,12 +95,24 @@ public class DataInitializer implements CommandLineRunner {
             profile.setGithubUrl("https://github.com");
             profile.setLinkedinUrl("https://linkedin.com");
             profile.setTwitterUrl("https://twitter.com");
+            profile.setEmail("altafhussain078692@gmail.com");
+            profile.setPhone("+91-8002590676");
+            profile.setLocation("Lucknow, India");
+            profile.setGithubUrl("https://github.com/altaf12e");
+            profile.setLinkedinUrl("https://www.linkedin.com/in/altaf-hussain-75b9ab329/");
+            profile.setTwitterUrl("");
             profile.setResumeUrl("/resume");
             profile.setAvatarUrl("/images/altaf.jpeg");
             profile.setAvailableForHire(true);
             profile.setTotalVisits(1420);
 
             profileSettingsRepository.save(profile);
+        } else {
+            ProfileSettings profile = profileSettingsRepository.findAll().get(0);
+            if (profile.getEmail() == null || profile.getEmail().contains("example.com") || profile.getEmail().contains("altaf.engineer")) {
+                profile.setEmail("altafhussain078692@gmail.com");
+                profileSettingsRepository.save(profile);
+            }
         }
     }
 

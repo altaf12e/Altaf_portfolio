@@ -72,8 +72,22 @@
 
                         <a th:href="'mailto:' + ${profile.email}"
                            th:text="${profile.email}">
+                        <a th:href="'mailto:' + ${profile.email != null ? profile.email : 'altafhussain078692@gmail.com'} + '?subject=Portfolio%20Inquiry%20-%20Altaf%20Hussain'"
+                           href="mailto:altafhussain078692@gmail.com?subject=Portfolio%20Inquiry%20-%20Altaf%20Hussain"
+                           class="email-action-btn"
+                           title="Click to open your mail app and send an email"
+                           th:text="${profile.email != null ? profile.email : 'altafhussain078692@gmail.com'}">
                             altafhussain078692@gmail.com
                         </a>
+
+                        <div style="margin-top: 6px;">
+                            <a th:href="'mailto:' + ${profile.email != null ? profile.email : 'altafhussain078692@gmail.com'} + '?subject=Portfolio%20Inquiry%20-%20Altaf%20Hussain'"
+                               href="mailto:altafhussain078692@gmail.com?subject=Portfolio%20Inquiry%20-%20Altaf%20Hussain"
+                               class="btn btn-outline btn-sm email-action-btn"
+                               style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; padding: 4px 10px;">
+                                ✉️ Open in Mail App
+                            </a>
+                        </div>
 
                     </div>
 

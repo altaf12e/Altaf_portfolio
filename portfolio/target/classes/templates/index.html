@@ -37,6 +37,10 @@
                 <a th:href="${github != null ? github : 'https://github.com/altaf12e'}" target="_blank" rel="noopener">GitHub ↗</a>
                 <a th:href="${linkedin != null ? linkedin : 'https://www.linkedin.com/in/altaf-hussain-75b9ab329/'}" target="_blank" rel="noopener">LinkedIn ↗</a>
                 <a th:href="'mailto:' + ${email != null ? email : 'altafhussain078692@gmail.com'}">Email ↗</a>
+                <a th:href="'mailto:' + ${email != null ? email : 'altafhussain078692@gmail.com'} + '?subject=Portfolio%20Inquiry%20-%20Altaf%20Hussain'"
+                   href="mailto:altafhussain078692@gmail.com?subject=Portfolio%20Inquiry%20-%20Altaf%20Hussain"
+                   class="email-action-btn"
+                   title="Send email directly to Altaf">Email ↗</a>
             </div>
         </div>
 
@@ -72,6 +76,108 @@
         </div>
     </div>
 </div>
+
+<!-- About Me Section (Exact Vercel Match) -->
+<section class="section" id="about">
+    <h2 class="section-title">About Me</h2>
+    <div class="about-grid">
+        <div class="about-text">
+            <p>I'm a passionate Computer Science student with a strong interest in full-stack web development, data structures, and problem solving. I love building projects that solve real-world problems and create meaningful user experiences.</p>
+            <ul class="about-details">
+                <li><i class="fas fa-graduation-cap"></i> <span>B.Tech in Computer Science</span></li>
+                <li><i class="fas fa-university"></i> <span>Dr. A.P.J. Abdul Kalam Technical University, 2023–2027</span></li>
+                <li><i class="fas fa-map-marker-alt"></i> <span>Lucknow, India</span></li>
+                <li><i class="fas fa-envelope"></i> <span>altafhussain078692@email.com</span></li>
+                <li>
+                    <i class="fas fa-envelope"></i>
+                    <a th:href="'mailto:' + ${email != null ? email : 'altafhussain078692@gmail.com'} + '?subject=Portfolio%20Inquiry%20-%20Altaf%20Hussain'"
+                       href="mailto:altafhussain078692@gmail.com?subject=Portfolio%20Inquiry%20-%20Altaf%20Hussain"
+                       class="email-link email-action-btn"
+                       title="Send an email to Altaf Hussain">
+                        <span th:text="${email != null ? email : 'altafhussain078692@gmail.com'}">altafhussain078692@gmail.com</span>
+                    </a>
+                </li>
+                <li><i class="fas fa-code"></i> <span>Open to Internships &amp; Jobs</span></li>
+            </ul>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 10px;">
+                <a th:href="@{/resume/download}" class="btn" download>
+                    <i class="fas fa-download"></i> Download Resume
+                </a>
+                <a th:href="@{/resume}" class="btn btn-outline">
+                    <i class="fas fa-file-alt"></i> View Resume
+                </a>
+                <a th:href="'mailto:' + ${email != null ? email : 'altafhussain078692@gmail.com'} + '?subject=Portfolio%20Inquiry%20-%20Altaf%20Hussain'"
+                   href="mailto:altafhussain078692@gmail.com?subject=Portfolio%20Inquiry%20-%20Altaf%20Hussain"
+                   class="btn btn-primary email-action-btn"
+                   title="Open email composer to send email">
+                    <i class="fas fa-envelope"></i> Email Me
+                </a>
+            </div>
+        </div>
+        <div class="about-stats">
+            <div class="stat"><h3 class="count" data-target="4">4+</h3><p>Projects</p></div>
+            <div class="stat"><h3 class="count" data-target="3">3+</h3><p>Years Coding</p></div>
+            <div class="stat"><h3 class="count" data-target="5">5+</h3><p>Technologies</p></div>
+            <div class="stat"><h3 class="count" data-target="2">2+</h3><p>Internships</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Section (Exact Vercel Match) -->
+<section class="section bg-alt" id="skills">
+    <h2 class="section-title">Skills</h2>
+    <div class="skills-container">
+        <!-- 10 Skills Icons Grid -->
+        <div class="skills-icons">
+            <div class="skill-card"><i class="fab fa-html5"></i><p>HTML5</p></div>
+            <div class="skill-card"><i class="fab fa-css3-alt"></i><p>CSS3</p></div>
+            <div class="skill-card"><i class="fab fa-js"></i><p>JavaScript</p></div>
+            <div class="skill-card"><i class="fab fa-react"></i><p>React</p></div>
+            <div class="skill-card"><i class="fab fa-node-js"></i><p>Node.js</p></div>
+            <div class="skill-card"><i class="fab fa-git-alt"></i><p>Git &amp; GitHub</p></div>
+            <div class="skill-card"><i class="fas fa-database"></i><p>MongoDB</p></div>
+            <div class="skill-card"><i class="fab fa-java"></i><p>Java</p></div>
+            <div class="skill-card"><i class="fab fa-java"></i><p>Java SpringBoot</p></div>
+            <div class="skill-card"><i class="fas fa-server"></i><p>Express.js</p></div>
+        </div>
+
+        <!-- 8 Skills Progress Bars -->
+        <div class="skills-bars">
+            <div class="skill-bar-item">
+                <div class="skill-bar-label"><span>HTML / CSS</span><span>90%</span></div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-width="90"></div></div>
+            </div>
+            <div class="skill-bar-item">
+                <div class="skill-bar-label"><span>JavaScript</span><span>80%</span></div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-width="80"></div></div>
+            </div>
+            <div class="skill-bar-item">
+                <div class="skill-bar-label"><span>React</span><span>75%</span></div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-width="75"></div></div>
+            </div>
+            <div class="skill-bar-item">
+                <div class="skill-bar-label"><span>Node.js / Express</span><span>70%</span></div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-width="70"></div></div>
+            </div>
+            <div class="skill-bar-item">
+                <div class="skill-bar-label"><span>MongoDB</span><span>65%</span></div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-width="65"></div></div>
+            </div>
+            <div class="skill-bar-item">
+                <div class="skill-bar-label"><span>Java</span><span>72%</span></div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-width="72"></div></div>
+            </div>
+            <div class="skill-bar-item">
+                <div class="skill-bar-label"><span>Java SpringBoot</span><span>65%</span></div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-width="65"></div></div>
+            </div>
+            <div class="skill-bar-item">
+                <div class="skill-bar-label"><span>Express.js</span><span>68%</span></div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-width="68"></div></div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- Featured Projects Section -->
 <section class="section">

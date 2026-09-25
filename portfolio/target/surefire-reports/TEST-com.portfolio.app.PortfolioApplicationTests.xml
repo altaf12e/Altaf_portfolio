@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.portfolio.app.PortfolioApplicationTests" time="14.569" tests="21" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.portfolio.app.PortfolioApplicationTests" time="19.501" tests="21" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -16,7 +16,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="AE"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-23\bin"/>
-    <property name="sun.java.command" value="C:\Users\Imtiyaz\AppData\Local\Temp\surefire16483150100705016446\surefirebooter-20260921222616044_3.jar C:\Users\Imtiyaz\AppData\Local\Temp\surefire16483150100705016446 2026-09-21T22-26-15_816-jvmRun1 surefire-20260921222616044_1tmp surefire_0-20260921222616044_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\Imtiyaz\AppData\Local\Temp\surefire11105074400345512073\surefirebooter-20260925162645406_3.jar C:\Users\Imtiyaz\AppData\Local\Temp\surefire11105074400345512073 2026-09-25T16-26-45_094-jvmRun1 surefire-20260925162645406_1tmp surefire_0-20260925162645406_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\Imtiyaz\OneDrive\Desktop\portfolio-springboot\portfolio\target\test-classes;C:\Users\Imtiyaz\OneDrive\Desktop\portfolio-springboot\portfolio\target\classes;C:\Users\Imtiyaz\.m2\repository\org\springframework\boot\spring-boot-starter-web\3.3.4\spring-boot-starter-web-3.3.4.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\boot\spring-boot-starter\3.3.4\spring-boot-starter-3.3.4.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\boot\spring-boot-starter-logging\3.3.4\spring-boot-starter-logging-3.3.4.jar;C:\Users\Imtiyaz\.m2\repository\ch\qos\logback\logback-classic\1.5.8\logback-classic-1.5.8.jar;C:\Users\Imtiyaz\.m2\repository\ch\qos\logback\logback-core\1.5.8\logback-core-1.5.8.jar;C:\Users\Imtiyaz\.m2\repository\org\apache\logging\log4j\log4j-to-slf4j\2.23.1\log4j-to-slf4j-2.23.1.jar;C:\Users\Imtiyaz\.m2\repository\org\apache\logging\log4j\log4j-api\2.23.1\log4j-api-2.23.1.jar;C:\Users\Imtiyaz\.m2\repository\org\slf4j\jul-to-slf4j\2.0.16\jul-to-slf4j-2.0.16.jar;C:\Users\Imtiyaz\.m2\repository\jakarta\annotation\jakarta.annotation-api\2.1.1\jakarta.annotation-api-2.1.1.jar;C:\Users\Imtiyaz\.m2\repository\org\yaml\snakeyaml\2.2\snakeyaml-2.2.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\boot\spring-boot-starter-json\3.3.4\spring-boot-starter-json-3.3.4.jar;C:\Users\Imtiyaz\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.17.2\jackson-databind-2.17.2.jar;C:\Users\Imtiyaz\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.17.2\jackson-annotations-2.17.2.jar;C:\Users\Imtiyaz\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.17.2\jackson-core-2.17.2.jar;C:\Users\Imtiyaz\.m2\repository\com\fasterxml\jackson\datatype\jackson-datatype-jdk8\2.17.2\jackson-datatype-jdk8-2.17.2.jar;C:\Users\Imtiyaz\.m2\repository\com\fasterxml\jackson\datatype\jackson-datatype-jsr310\2.17.2\jackson-datatype-jsr310-2.17.2.jar;C:\Users\Imtiyaz\.m2\repository\com\fasterxml\jackson\module\jackson-module-parameter-names\2.17.2\jackson-module-parameter-names-2.17.2.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\boot\spring-boot-starter-tomcat\3.3.4\spring-boot-starter-tomcat-3.3.4.jar;C:\Users\Imtiyaz\.m2\repository\org\apache\tomcat\embed\tomcat-embed-core\10.1.30\tomcat-embed-core-10.1.30.jar;C:\Users\Imtiyaz\.m2\repository\org\apache\tomcat\embed\tomcat-embed-websocket\10.1.30\tomcat-embed-websocket-10.1.30.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\spring-web\6.1.13\spring-web-6.1.13.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\spring-beans\6.1.13\spring-beans-6.1.13.jar;C:\Users\Imtiyaz\.m2\repository\io\micrometer\micrometer-observation\1.13.4\micrometer-observation-1.13.4.jar;C:\Users\Imtiyaz\.m2\repository\io\micrometer\micrometer-commons\1.13.4\micrometer-commons-1.13.4.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\spring-webmvc\6.1.13\spring-webmvc-6.1.13.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\spring-context\6.1.13\spring-context-6.1.13.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\spring-expression\6.1.13\spring-expression-6.1.13.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\boot\spring-boot-starter-thymeleaf\3.3.4\spring-boot-starter-thymeleaf-3.3.4.jar;C:\Users\Imtiyaz\.m2\repository\org\thymeleaf\thymeleaf-spring6\3.1.2.RELEASE\thymeleaf-spring6-3.1.2.RELEASE.jar;C:\Users\Imtiyaz\.m2\repository\org\thymeleaf\thymeleaf\3.1.2.RELEASE\thymeleaf-3.1.2.RELEASE.jar;C:\Users\Imtiyaz\.m2\repository\org\attoparser\attoparser\2.0.7.RELEASE\attoparser-2.0.7.RELEASE.jar;C:\Users\Imtiyaz\.m2\repository\org\unbescape\unbescape\1.1.6.RELEASE\unbescape-1.1.6.RELEASE.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\boot\spring-boot-starter-validation\3.3.4\spring-boot-starter-validation-3.3.4.jar;C:\Users\Imtiyaz\.m2\repository\org\apache\tomcat\embed\tomcat-embed-el\10.1.30\tomcat-embed-el-10.1.30.jar;C:\Users\Imtiyaz\.m2\repository\org\hibernate\validator\hibernate-validator\8.0.1.Final\hibernate-validator-8.0.1.Final.jar;C:\Users\Imtiyaz\.m2\repository\jakarta\validation\jakarta.validation-api\3.0.2\jakarta.validation-api-3.0.2.jar;C:\Users\Imtiyaz\.m2\repository\org\jboss\logging\jboss-logging\3.5.3.Final\jboss-logging-3.5.3.Final.jar;C:\Users\Imtiyaz\.m2\repository\com\fasterxml\classmate\1.7.0\classmate-1.7.0.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\boot\spring-boot-starter-data-jpa\3.3.4\spring-boot-starter-data-jpa-3.3.4.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\boot\spring-boot-starter-aop\3.3.4\spring-boot-starter-aop-3.3.4.jar;C:\Users\Imtiyaz\.m2\repository\org\aspectj\aspectjweaver\1.9.22.1\aspectjweaver-1.9.22.1.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\boot\spring-boot-starter-jdbc\3.3.4\spring-boot-starter-jdbc-3.3.4.jar;C:\Users\Imtiyaz\.m2\repository\com\zaxxer\HikariCP\5.1.0\HikariCP-5.1.0.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\spring-jdbc\6.1.13\spring-jdbc-6.1.13.jar;C:\Users\Imtiyaz\.m2\repository\org\hibernate\orm\hibernate-core\6.5.3.Final\hibernate-core-6.5.3.Final.jar;C:\Users\Imtiyaz\.m2\repository\jakarta\persistence\jakarta.persistence-api\3.1.0\jakarta.persistence-api-3.1.0.jar;C:\Users\Imtiyaz\.m2\repository\jakarta\transaction\jakarta.transaction-api\2.0.1\jakarta.transaction-api-2.0.1.jar;C:\Users\Imtiyaz\.m2\repository\org\hibernate\common\hibernate-commons-annotations\6.0.6.Final\hibernate-commons-annotations-6.0.6.Final.jar;C:\Users\Imtiyaz\.m2\repository\io\smallrye\jandex\3.1.2\jandex-3.1.2.jar;C:\Users\Imtiyaz\.m2\repository\net\bytebuddy\byte-buddy\1.14.19\byte-buddy-1.14.19.jar;C:\Users\Imtiyaz\.m2\repository\org\glassfish\jaxb\jaxb-runtime\4.0.5\jaxb-runtime-4.0.5.jar;C:\Users\Imtiyaz\.m2\repository\org\glassfish\jaxb\jaxb-core\4.0.5\jaxb-core-4.0.5.jar;C:\Users\Imtiyaz\.m2\repository\org\eclipse\angus\angus-activation\2.0.2\angus-activation-2.0.2.jar;C:\Users\Imtiyaz\.m2\repository\org\glassfish\jaxb\txw2\4.0.5\txw2-4.0.5.jar;C:\Users\Imtiyaz\.m2\repository\com\sun\istack\istack-commons-runtime\4.1.2\istack-commons-runtime-4.1.2.jar;C:\Users\Imtiyaz\.m2\repository\jakarta\inject\jakarta.inject-api\2.0.1\jakarta.inject-api-2.0.1.jar;C:\Users\Imtiyaz\.m2\repository\org\antlr\antlr4-runtime\4.13.0\antlr4-runtime-4.13.0.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\data\spring-data-jpa\3.3.4\spring-data-jpa-3.3.4.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\data\spring-data-commons\3.3.4\spring-data-commons-3.3.4.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\spring-orm\6.1.13\spring-orm-6.1.13.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\spring-tx\6.1.13\spring-tx-6.1.13.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\spring-aspects\6.1.13\spring-aspects-6.1.13.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\boot\spring-boot-starter-security\3.3.4\spring-boot-starter-security-3.3.4.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\spring-aop\6.1.13\spring-aop-6.1.13.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\security\spring-security-config\6.3.3\spring-security-config-6.3.3.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\security\spring-security-web\6.3.3\spring-security-web-6.3.3.jar;C:\Users\Imtiyaz\.m2\repository\org\thymeleaf\extras\thymeleaf-extras-springsecurity6\3.1.2.RELEASE\thymeleaf-extras-springsecurity6-3.1.2.RELEASE.jar;C:\Users\Imtiyaz\.m2\repository\org\slf4j\slf4j-api\2.0.16\slf4j-api-2.0.16.jar;C:\Users\Imtiyaz\.m2\repository\com\h2database\h2\2.2.224\h2-2.2.224.jar;C:\Users\Imtiyaz\.m2\repository\com\mysql\mysql-connector-j\8.3.0\mysql-connector-j-8.3.0.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\boot\spring-boot-devtools\3.3.4\spring-boot-devtools-3.3.4.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\boot\spring-boot\3.3.4\spring-boot-3.3.4.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\boot\spring-boot-autoconfigure\3.3.4\spring-boot-autoconfigure-3.3.4.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\boot\spring-boot-starter-test\3.3.4\spring-boot-starter-test-3.3.4.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\boot\spring-boot-test\3.3.4\spring-boot-test-3.3.4.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\boot\spring-boot-test-autoconfigure\3.3.4\spring-boot-test-autoconfigure-3.3.4.jar;C:\Users\Imtiyaz\.m2\repository\com\jayway\jsonpath\json-path\2.9.0\json-path-2.9.0.jar;C:\Users\Imtiyaz\.m2\repository\jakarta\xml\bind\jakarta.xml.bind-api\4.0.2\jakarta.xml.bind-api-4.0.2.jar;C:\Users\Imtiyaz\.m2\repository\jakarta\activation\jakarta.activation-api\2.1.3\jakarta.activation-api-2.1.3.jar;C:\Users\Imtiyaz\.m2\repository\net\minidev\json-smart\2.5.1\json-smart-2.5.1.jar;C:\Users\Imtiyaz\.m2\repository\net\minidev\accessors-smart\2.5.1\accessors-smart-2.5.1.jar;C:\Users\Imtiyaz\.m2\repository\org\ow2\asm\asm\9.6\asm-9.6.jar;C:\Users\Imtiyaz\.m2\repository\org\assertj\assertj-core\3.25.3\assertj-core-3.25.3.jar;C:\Users\Imtiyaz\.m2\repository\org\awaitility\awaitility\4.2.2\awaitility-4.2.2.jar;C:\Users\Imtiyaz\.m2\repository\org\hamcrest\hamcrest\2.2\hamcrest-2.2.jar;C:\Users\Imtiyaz\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.3\junit-jupiter-5.10.3.jar;C:\Users\Imtiyaz\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.3\junit-jupiter-api-5.10.3.jar;C:\Users\Imtiyaz\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Imtiyaz\.m2\repository\org\junit\platform\junit-platform-commons\1.10.3\junit-platform-commons-1.10.3.jar;C:\Users\Imtiyaz\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Imtiyaz\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.3\junit-jupiter-params-5.10.3.jar;C:\Users\Imtiyaz\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.3\junit-jupiter-engine-5.10.3.jar;C:\Users\Imtiyaz\.m2\repository\org\junit\platform\junit-platform-engine\1.10.3\junit-platform-engine-1.10.3.jar;C:\Users\Imtiyaz\.m2\repository\org\mockito\mockito-core\5.11.0\mockito-core-5.11.0.jar;C:\Users\Imtiyaz\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.19\byte-buddy-agent-1.14.19.jar;C:\Users\Imtiyaz\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\Imtiyaz\.m2\repository\org\mockito\mockito-junit-jupiter\5.11.0\mockito-junit-jupiter-5.11.0.jar;C:\Users\Imtiyaz\.m2\repository\org\skyscreamer\jsonassert\1.5.3\jsonassert-1.5.3.jar;C:\Users\Imtiyaz\.m2\repository\com\vaadin\external\google\android-json\0.0.20131108.vaadin1\android-json-0.0.20131108.vaadin1.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\spring-core\6.1.13\spring-core-6.1.13.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\spring-jcl\6.1.13\spring-jcl-6.1.13.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\spring-test\6.1.13\spring-test-6.1.13.jar;C:\Users\Imtiyaz\.m2\repository\org\xmlunit\xmlunit-core\2.9.1\xmlunit-core-2.9.1.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\security\spring-security-test\6.3.3\spring-security-test-6.3.3.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\security\spring-security-core\6.3.3\spring-security-core-6.3.3.jar;C:\Users\Imtiyaz\.m2\repository\org\springframework\security\spring-security-crypto\6.3.3\spring-security-crypto-6.3.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -33,7 +33,7 @@
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="FILE_LOG_CHARSET" value="UTF-8"/>
     <property name="java.awt.headless" value="true"/>
-    <property name="surefire.real.class.path" value="C:\Users\Imtiyaz\AppData\Local\Temp\surefire16483150100705016446\surefirebooter-20260921222616044_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\Imtiyaz\AppData\Local\Temp\surefire11105074400345512073\surefirebooter-20260925162645406_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="23.0.2+7-58"/>
@@ -52,7 +52,7 @@
     <property name="user.dir" value="C:\Users\Imtiyaz\OneDrive\Desktop\portfolio-springboot\portfolio"/>
     <property name="os.arch" value="amd64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="PID" value="21072"/>
+    <property name="PID" value="21624"/>
     <property name="sun.os.patch.level" value=""/>
     <property name="CONSOLE_LOG_CHARSET" value="UTF-8"/>
     <property name="native.encoding" value="Cp1252"/>
@@ -64,10 +64,10 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="67.0"/>
   </properties>
-  <testcase name="testApiStatsAndSkills" classname="com.portfolio.app.PortfolioApplicationTests" time="0.963">
-    <system-out><![CDATA[22:26:17.361 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.portfolio.app.PortfolioApplicationTests]: PortfolioApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-22:26:17.532 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.portfolio.app.PortfolioApplication for test class com.portfolio.app.PortfolioApplicationTests
-22:26:17.788 [main] INFO org.springframework.boot.devtools.restart.RestartApplicationListener -- Restart disabled due to context in which it is running
+  <testcase name="testApiStatsAndSkills" classname="com.portfolio.app.PortfolioApplicationTests" time="1.239">
+    <system-out><![CDATA[16:26:49.233 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.portfolio.app.PortfolioApplicationTests]: PortfolioApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+16:26:49.538 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.portfolio.app.PortfolioApplication for test class com.portfolio.app.PortfolioApplicationTests
+16:26:50.106 [main] INFO org.springframework.boot.devtools.restart.RestartApplicationListener -- Restart disabled due to context in which it is running
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -78,32 +78,32 @@
 
  :: Spring Boot ::                (v3.3.4)
 
-2026-09-21T22:26:18.211+05:30  INFO 21072 --- [           main] c.p.app.PortfolioApplicationTests        : Starting PortfolioApplicationTests using Java 23.0.2 with PID 21072 (started by Imtiyaz in C:\Users\Imtiyaz\OneDrive\Desktop\portfolio-springboot\portfolio)
-2026-09-21T22:26:18.212+05:30  INFO 21072 --- [           main] c.p.app.PortfolioApplicationTests        : No active profile set, falling back to 1 default profile: "default"
-2026-09-21T22:26:19.484+05:30  INFO 21072 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-09-21T22:26:19.602+05:30  INFO 21072 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 108 ms. Found 11 JPA repository interfaces.
-2026-09-21T22:26:20.622+05:30  INFO 21072 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2026-09-21T22:26:20.743+05:30  INFO 21072 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
-2026-09-21T22:26:20.840+05:30  INFO 21072 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2026-09-21T22:26:21.458+05:30  INFO 21072 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2026-09-21T22:26:21.496+05:30  INFO 21072 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2026-09-21T22:26:21.717+05:30  INFO 21072 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
-2026-09-21T22:26:21.720+05:30  INFO 21072 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2026-09-21T22:26:23.447+05:30  INFO 21072 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2026-09-21T22:26:23.534+05:30  INFO 21072 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2026-09-21T22:26:24.079+05:30  INFO 21072 --- [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
-2026-09-21T22:26:25.697+05:30  WARN 21072 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2026-09-21T22:26:25.760+05:30  INFO 21072 --- [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name adminUserService
-2026-09-21T22:26:25.950+05:30  INFO 21072 --- [           main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
-2026-09-21T22:26:27.168+05:30  INFO 21072 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-09-21T22:26:27.169+05:30  INFO 21072 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-09-21T22:26:27.172+05:30  INFO 21072 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
-2026-09-21T22:26:27.198+05:30  INFO 21072 --- [           main] c.p.app.PortfolioApplicationTests        : Started PortfolioApplicationTests in 9.436 seconds (process running for 10.973)
-2026-09-21T22:26:27.545+05:30  INFO 21072 --- [           main] c.p.app.service.AdminUserService         : Initialized default admin user 'admin' in database.
-2026-09-21T22:26:27.654+05:30  INFO 21072 --- [           main] c.portfolio.app.config.DataInitializer   : Projects initialized successfully.
-2026-09-21T22:26:27.718+05:30  INFO 21072 --- [           main] c.portfolio.app.service.ResumeService    : Default initial resume seeded successfully.
-2026-09-21T22:26:27.730+05:30  INFO 21072 --- [           main] c.p.app.service.CertificateService       : Default initial certificates seeded successfully (3 records).
-2026-09-21T22:26:27.732+05:30  INFO 21072 --- [           main] c.portfolio.app.config.DataInitializer   : Portfolio initial database seed completed successfully.
+2026-09-25T16:26:50.859+05:30  INFO 21624 --- [           main] c.p.app.PortfolioApplicationTests        : Starting PortfolioApplicationTests using Java 23.0.2 with PID 21624 (started by Imtiyaz in C:\Users\Imtiyaz\OneDrive\Desktop\portfolio-springboot\portfolio)
+2026-09-25T16:26:50.862+05:30  INFO 21624 --- [           main] c.p.app.PortfolioApplicationTests        : No active profile set, falling back to 1 default profile: "default"
+2026-09-25T16:26:53.042+05:30  INFO 21624 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-25T16:26:53.259+05:30  INFO 21624 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 195 ms. Found 11 JPA repository interfaces.
+2026-09-25T16:26:54.731+05:30  INFO 21624 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-25T16:26:54.944+05:30  INFO 21624 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2026-09-25T16:26:55.061+05:30  INFO 21624 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-09-25T16:26:56.079+05:30  INFO 21624 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-25T16:26:56.159+05:30  INFO 21624 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-09-25T16:26:56.600+05:30  INFO 21624 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2026-09-25T16:26:56.604+05:30  INFO 21624 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-09-25T16:26:59.069+05:30  INFO 21624 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-25T16:26:59.183+05:30  INFO 21624 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-25T16:26:59.955+05:30  INFO 21624 --- [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-09-25T16:27:01.715+05:30  WARN 21624 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-09-25T16:27:01.779+05:30  INFO 21624 --- [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name adminUserService
+2026-09-25T16:27:01.988+05:30  INFO 21624 --- [           main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2026-09-25T16:27:03.370+05:30  INFO 21624 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-25T16:27:03.371+05:30  INFO 21624 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-25T16:27:03.373+05:30  INFO 21624 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-09-25T16:27:03.421+05:30  INFO 21624 --- [           main] c.p.app.PortfolioApplicationTests        : Started PortfolioApplicationTests in 13.357 seconds (process running for 16.929)
+2026-09-25T16:27:03.847+05:30  INFO 21624 --- [           main] c.p.app.service.AdminUserService         : Initialized default admin user 'admin' in database.
+2026-09-25T16:27:03.984+05:30  INFO 21624 --- [           main] c.portfolio.app.config.DataInitializer   : Projects initialized successfully.
+2026-09-25T16:27:04.071+05:30  INFO 21624 --- [           main] c.portfolio.app.service.ResumeService    : Default initial resume seeded successfully.
+2026-09-25T16:27:04.082+05:30  INFO 21624 --- [           main] c.p.app.service.CertificateService       : Default initial certificates seeded successfully (3 records).
+2026-09-25T16:27:04.086+05:30  INFO 21624 --- [           main] c.portfolio.app.config.DataInitializer   : Portfolio initial database seed completed successfully.
 ]]></system-out>
     <system-err><![CDATA[WARNING: A Java agent has been loaded dynamically (C:\Users\Imtiyaz\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.19\byte-buddy-agent-1.14.19.jar)
 WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
@@ -111,43 +111,43 @@ WARNING: If a serviceability tool is not in use, please run with -Djdk.instrumen
 WARNING: Dynamic loading of agents will be disallowed by default in a future release
 ]]></system-err>
   </testcase>
-  <testcase name="testDownloadResumeEndpointReturnsPdfAttachment" classname="com.portfolio.app.PortfolioApplicationTests" time="0.052"/>
-  <testcase name="testAllPublicPagesReturnOk" classname="com.portfolio.app.PortfolioApplicationTests" time="1.014"/>
-  <testcase name="testAdminDeleteCertificate" classname="com.portfolio.app.PortfolioApplicationTests" time="0.086">
-    <system-out><![CDATA[2026-09-21T22:26:29.821+05:30  INFO 21072 --- [           main] c.p.app.service.CertificateService       : Certificate saved successfully: 'Temporary Cert to Delete' by Test Org (ID: 4)
-2026-09-21T22:26:29.864+05:30  INFO 21072 --- [           main] c.p.app.service.CertificateService       : Certificate deleted with ID: 4
+  <testcase name="testDownloadResumeEndpointReturnsPdfAttachment" classname="com.portfolio.app.PortfolioApplicationTests" time="0.042"/>
+  <testcase name="testAllPublicPagesReturnOk" classname="com.portfolio.app.PortfolioApplicationTests" time="0.94"/>
+  <testcase name="testAdminDeleteCertificate" classname="com.portfolio.app.PortfolioApplicationTests" time="0.076">
+    <system-out><![CDATA[2026-09-25T16:27:06.359+05:30  INFO 21624 --- [           main] c.p.app.service.CertificateService       : Certificate saved successfully: 'Temporary Cert to Delete' by Test Org (ID: 4)
+2026-09-25T16:27:06.394+05:30  INFO 21624 --- [           main] c.p.app.service.CertificateService       : Certificate deleted with ID: 4
 ]]></system-out>
   </testcase>
-  <testcase name="testAdminAuthenticatedAccessDashboard" classname="com.portfolio.app.PortfolioApplicationTests" time="0.167"/>
-  <testcase name="testViewResumeEndpointReturnsPdf" classname="com.portfolio.app.PortfolioApplicationTests" time="0.013"/>
-  <testcase name="testViewAndDownloadCertificateEndpoints" classname="com.portfolio.app.PortfolioApplicationTests" time="0.029"/>
-  <testcase name="testAdminChangePasswordPostEndpointMismatch" classname="com.portfolio.app.PortfolioApplicationTests" time="0.021"/>
-  <testcase name="testContactStandardFormPost" classname="com.portfolio.app.PortfolioApplicationTests" time="0.122">
-    <system-out><![CDATA[2026-09-21T22:26:30.165+05:30  INFO 21072 --- [           main] c.p.app.controller.PortfolioController   : New contact message from Charlie Client <charlie@example.com>: Need an enterprise portfolio and backend built.
+  <testcase name="testAdminAuthenticatedAccessDashboard" classname="com.portfolio.app.PortfolioApplicationTests" time="0.159"/>
+  <testcase name="testViewResumeEndpointReturnsPdf" classname="com.portfolio.app.PortfolioApplicationTests" time="0.015"/>
+  <testcase name="testViewAndDownloadCertificateEndpoints" classname="com.portfolio.app.PortfolioApplicationTests" time="0.032"/>
+  <testcase name="testAdminChangePasswordPostEndpointMismatch" classname="com.portfolio.app.PortfolioApplicationTests" time="0.025"/>
+  <testcase name="testContactStandardFormPost" classname="com.portfolio.app.PortfolioApplicationTests" time="0.107">
+    <system-out><![CDATA[2026-09-25T16:27:06.699+05:30  INFO 21624 --- [           main] c.p.app.controller.PortfolioController   : New contact message from Charlie Client <charlie@example.com>: Need an enterprise portfolio and backend built.
 ]]></system-out>
   </testcase>
-  <testcase name="testAdminUserServiceValidationRules" classname="com.portfolio.app.PortfolioApplicationTests" time="0.132"/>
-  <testcase name="testAdminUploadResumePdfSuccess" classname="com.portfolio.app.PortfolioApplicationTests" time="0.045">
-    <system-out><![CDATA[2026-09-21T22:26:30.406+05:30  INFO 21072 --- [           main] c.portfolio.app.service.ResumeService    : Existing resume replaced with new upload: My_Custom_Resume.pdf (41 bytes)
+  <testcase name="testAdminUserServiceValidationRules" classname="com.portfolio.app.PortfolioApplicationTests" time="0.136"/>
+  <testcase name="testAdminUploadResumePdfSuccess" classname="com.portfolio.app.PortfolioApplicationTests" time="0.047">
+    <system-out><![CDATA[2026-09-25T16:27:06.926+05:30  INFO 21624 --- [           main] c.portfolio.app.service.ResumeService    : Existing resume replaced with new upload: My_Custom_Resume.pdf (41 bytes)
 ]]></system-out>
   </testcase>
-  <testcase name="testAdminUploadCertificateImageSuccess" classname="com.portfolio.app.PortfolioApplicationTests" time="0.026">
-    <system-out><![CDATA[2026-09-21T22:26:30.456+05:30  INFO 21072 --- [           main] c.p.app.service.CertificateService       : Certificate saved successfully: 'Docker Certified Associate' by Docker Inc. (ID: 5)
+  <testcase name="testAdminUploadCertificateImageSuccess" classname="com.portfolio.app.PortfolioApplicationTests" time="0.041">
+    <system-out><![CDATA[2026-09-25T16:27:06.994+05:30  INFO 21624 --- [           main] c.p.app.service.CertificateService       : Certificate saved successfully: 'Docker Certified Associate' by Docker Inc. (ID: 5)
 ]]></system-out>
   </testcase>
-  <testcase name="testContactApiJsonSubmission" classname="com.portfolio.app.PortfolioApplicationTests" time="0.064"/>
+  <testcase name="testContactApiJsonSubmission" classname="com.portfolio.app.PortfolioApplicationTests" time="0.09"/>
   <testcase name="contextLoads" classname="com.portfolio.app.PortfolioApplicationTests" time="0.004"/>
   <testcase name="testContactApiFormDataSubmission" classname="com.portfolio.app.PortfolioApplicationTests" time="0.014"/>
-  <testcase name="testAdminUploadNonPdfRejected" classname="com.portfolio.app.PortfolioApplicationTests" time="0.008"/>
-  <testcase name="testAdminChangePasswordPostEndpointWrongCurrentPassword" classname="com.portfolio.app.PortfolioApplicationTests" time="0.11"/>
-  <testcase name="testAdminUnauthenticatedRedirectsToLogin" classname="com.portfolio.app.PortfolioApplicationTests" time="0.011"/>
-  <testcase name="testAdminChangePasswordEndToEndAndRevert" classname="com.portfolio.app.PortfolioApplicationTests" time="0.98">
-    <system-out><![CDATA[2026-09-21T22:26:31.005+05:30  INFO 21072 --- [           main] c.p.app.service.AdminUserService         : Admin password successfully updated for user 'admin'.
-2026-09-21T22:26:31.548+05:30  INFO 21072 --- [           main] c.p.app.service.AdminUserService         : Admin password successfully updated for user 'admin'.
+  <testcase name="testAdminUploadNonPdfRejected" classname="com.portfolio.app.PortfolioApplicationTests" time="0.009"/>
+  <testcase name="testAdminChangePasswordPostEndpointWrongCurrentPassword" classname="com.portfolio.app.PortfolioApplicationTests" time="0.115"/>
+  <testcase name="testAdminUnauthenticatedRedirectsToLogin" classname="com.portfolio.app.PortfolioApplicationTests" time="0.01"/>
+  <testcase name="testAdminChangePasswordEndToEndAndRevert" classname="com.portfolio.app.PortfolioApplicationTests" time="0.983">
+    <system-out><![CDATA[2026-09-25T16:27:07.595+05:30  INFO 21624 --- [           main] c.p.app.service.AdminUserService         : Admin password successfully updated for user 'admin'.
+2026-09-25T16:27:08.130+05:30  INFO 21624 --- [           main] c.p.app.service.AdminUserService         : Admin password successfully updated for user 'admin'.
 ]]></system-out>
   </testcase>
-  <testcase name="testAdminUploadCertificatePdfSuccess" classname="com.portfolio.app.PortfolioApplicationTests" time="0.016">
-    <system-out><![CDATA[2026-09-21T22:26:31.676+05:30  INFO 21072 --- [           main] c.p.app.service.CertificateService       : Certificate saved successfully: 'Certified Kubernetes Administrator' by CNCF / Linux Foundation (ID: 6)
+  <testcase name="testAdminUploadCertificatePdfSuccess" classname="com.portfolio.app.PortfolioApplicationTests" time="0.012">
+    <system-out><![CDATA[2026-09-25T16:27:08.249+05:30  INFO 21624 --- [           main] c.p.app.service.CertificateService       : Certificate saved successfully: 'Certified Kubernetes Administrator' by CNCF / Linux Foundation (ID: 6)
 ]]></system-out>
   </testcase>
   <testcase name="testSaveContactMessageAppearsInRepository" classname="com.portfolio.app.PortfolioApplicationTests" time="0.012"/>

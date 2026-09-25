@@ -3,106 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="'About & Skills | ' + ${fullName}">About &amp; Skills</title>
+    <title th:text="'About & Skills | ' + ${fullName}">About &amp; Skills | Altaf Hussain</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
 
 <div th:replace="~{fragments/layout :: navbar}"></div>
 
-<!-- Bio Header -->
-<section class="section">
-    <div class="section-header">
-        <div>
-            <h1 class="section-title">About Me</h1>
-            <p class="section-subtitle" th:text="${title}"> Software Engineer</p>
+<!-- About Me Section (Exact Vercel Match) -->
+<section class="section" id="about">
+    <h2 class="section-title">About Me</h2>
+    <div class="about-grid">
+        <div class="about-text">
+            <p>I'm a passionate Computer Science student with a strong interest in full-stack web development, data structures, and problem solving. I love building projects that solve real-world problems and create meaningful user experiences.</p>
+            <ul class="about-details">
+                <li><i class="fas fa-graduation-cap"></i> <span>B.Tech in Computer Science</span></li>
+                <li><i class="fas fa-university"></i> <span>Dr. A.P.J. Abdul Kalam Technical University, 2023–2027</span></li>
+                <li><i class="fas fa-map-marker-alt"></i> <span>Lucknow, India</span></li>
+                <li>
+                    <i class="fas fa-envelope"></i>
+                    <a th:href="'mailto:' + ${email != null ? email : 'altafhussain078692@gmail.com'} + '?subject=Portfolio%20Inquiry%20-%20Altaf%20Hussain'"
+                       href="mailto:altafhussain078692@gmail.com?subject=Portfolio%20Inquiry%20-%20Altaf%20Hussain"
+                       class="email-link email-action-btn"
+                       title="Send an email to Altaf Hussain">
+                        <span th:text="${email != null ? email : 'altafhussain078692@gmail.com'}">altafhussain078692@gmail.com</span>
+                    </a>
+                </li>
+                <li><i class="fas fa-code"></i> <span>Open to Internships &amp; Jobs</span></li>
+            </ul>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 10px;">
+                <a th:href="@{/resume/download}" class="btn" download>
+                    <i class="fas fa-download"></i> Download Resume
+                </a>
+                <a th:href="@{/resume}" class="btn btn-outline">
+                    <i class="fas fa-file-alt"></i> View Resume
+                </a>
+                <a th:href="'mailto:' + ${email != null ? email : 'altafhussain078692@gmail.com'} + '?subject=Portfolio%20Inquiry%20-%20Altaf%20Hussain'"
+                   href="mailto:altafhussain078692@gmail.com?subject=Portfolio%20Inquiry%20-%20Altaf%20Hussain"
+                   class="btn btn-primary email-action-btn"
+                   title="Open email composer to send email">
+                    <i class="fas fa-envelope"></i> Email Me
+                </a>
+            </div>
         </div>
-    </div>
-    <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; box-shadow: var(--shadow-sm); margin-bottom: 30px;">
-        <p style="font-size: 1.08rem; color: var(--text-muted); line-height: 1.8; white-space: pre-line;"
-           th:text="${profile != null ? profile.aboutText : 'Passionate software engineer building resilient software.'}">
-            Bio text...
-        </p>
+        <div class="about-stats">
+            <div class="stat"><h3 class="count" data-target="4">4+</h3><p>Projects</p></div>
+            <div class="stat"><h3 class="count" data-target="3">3+</h3><p>Years Coding</p></div>
+            <div class="stat"><h3 class="count" data-target="5">5+</h3><p>Technologies</p></div>
+            <div class="stat"><h3 class="count" data-target="2">2+</h3><p>Internships</p></div>
+        </div>
     </div>
 </section>
 
-<!-- Skills Matrix Grouped by Category -->
-<section class="section">
-    <div class="section-header">
-        <div>
-            <h2 class="section-title">Technical Skills Matrix</h2>
-            <p class="section-subtitle">Proficiencies developed through professional experience and enterprise delivery.</p>
+<!-- Skills Section (Exact Vercel Match) -->
+<section class="section bg-alt" id="skills">
+    <h2 class="section-title">Skills</h2>
+    <div class="skills-container">
+        <!-- 10 Skills Icons Grid -->
+        <div class="skills-icons">
+            <div class="skill-card"><i class="fab fa-html5"></i><p>HTML5</p></div>
+            <div class="skill-card"><i class="fab fa-css3-alt"></i><p>CSS3</p></div>
+            <div class="skill-card"><i class="fab fa-js"></i><p>JavaScript</p></div>
+            <div class="skill-card"><i class="fab fa-react"></i><p>React</p></div>
+            <div class="skill-card"><i class="fab fa-node-js"></i><p>Node.js</p></div>
+            <div class="skill-card"><i class="fab fa-git-alt"></i><p>Git &amp; GitHub</p></div>
+            <div class="skill-card"><i class="fas fa-database"></i><p>MongoDB</p></div>
+            <div class="skill-card"><i class="fab fa-java"></i><p>Java</p></div>
+            <div class="skill-card"><i class="fab fa-java"></i><p>Java SpringBoot</p></div>
+            <div class="skill-card"><i class="fas fa-server"></i><p>Express.js</p></div>
         </div>
-    </div>
 
-    <div class="skills-category-group" th:each="entry : ${skillsGrouped}">
-        <h3 class="category-header">
-            <span class="category-icon">⚡</span>
-            <span th:text="${entry.key}">Backend</span>
-        </h3>
-
-        <div class="skills-grid">
-            <div class="skill-card" th:each="skill : ${entry.value}">
-                <div class="skill-info">
-                    <span class="skill-name" th:text="${skill.name}">Java</span>
-                    <span class="skill-pct" th:text="${skill.proficiency} + '%'">90%</span>
-                </div>
-                <div class="skill-progress-bar">
-                    <div class="skill-progress-fill" th:attr="data-width=${skill.proficiency}"></div>
-                </div>
+        <!-- 8 Skills Progress Bars -->
+        <div class="skills-bars">
+            <div class="skill-bar-item">
+                <div class="skill-bar-label"><span>HTML / CSS</span><span>90%</span></div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-width="90"></div></div>
+            </div>
+            <div class="skill-bar-item">
+                <div class="skill-bar-label"><span>JavaScript</span><span>80%</span></div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-width="80"></div></div>
+            </div>
+            <div class="skill-bar-item">
+                <div class="skill-bar-label"><span>React</span><span>75%</span></div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-width="75"></div></div>
+            </div>
+            <div class="skill-bar-item">
+                <div class="skill-bar-label"><span>Node.js / Express</span><span>70%</span></div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-width="70"></div></div>
+            </div>
+            <div class="skill-bar-item">
+                <div class="skill-bar-label"><span>MongoDB</span><span>65%</span></div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-width="65"></div></div>
+            </div>
+            <div class="skill-bar-item">
+                <div class="skill-bar-label"><span>Java</span><span>72%</span></div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-width="72"></div></div>
+            </div>
+            <div class="skill-bar-item">
+                <div class="skill-bar-label"><span>Java SpringBoot</span><span>65%</span></div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-width="65"></div></div>
+            </div>
+            <div class="skill-bar-item">
+                <div class="skill-bar-label"><span>Express.js</span><span>68%</span></div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-width="68"></div></div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Career Experience Timeline -->
-<section class="section">
-    <div class="section-header">
-        <div>
-            <h2 class="section-title">Career Milestones</h2>
-            <p class="section-subtitle">Engineering roles and distributed systems contributions.</p>
-        </div>
-    </div>
-
+<!-- Timeline / My Journey Section (Exact Vercel Match) -->
+<section class="section" id="timeline">
+    <h2 class="section-title">My Journey</h2>
     <div class="timeline">
-        <div class="timeline-item" th:each="exp : ${experiences}">
+        <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-card">
-                <div class="timeline-header">
-                    <h3 class="timeline-role" th:text="${exp.role}">Senior Backend Engineer</h3>
-                    <span class="timeline-period" th:text="${exp.period}">2023 - Present</span>
+                <span class="timeline-date"><i class="fas fa-calendar"></i> 2023</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 8px;">
+                    <h3 style="font-size: 1.1rem; margin: 0;">Started B.Tech</h3>
+                    <span class="timeline-badge education">Education</span>
                 </div>
-                <div class="timeline-company">
-                    <span th:text="${exp.company}">Apex Cloud</span> • <span th:text="${exp.location}">San Francisco, CA</span>
-                </div>
-                <p class="timeline-desc" th:text="${exp.description}">Role description and highlights...</p>
-                <div class="timeline-tech">
-                    <strong>Tech:</strong> <span th:text="${exp.technologies}">Java, Spring Boot, Kafka, Docker</span>
-                </div>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin: 0;">
+                    Started my Bachelor of Technology in Computer Science and began building a strong foundation in programming and computer science.
+                </p>
             </div>
         </div>
-    </div>
-</section>
 
-<!-- Education & Certifications -->
-<section class="section">
-    <div class="section-header">
-        <div>
-            <h2 class="section-title">Education &amp; Certifications</h2>
-            <p class="section-subtitle">Academic degrees and industry certifications.</p>
-        </div>
-    </div>
-
-    <div class="timeline">
-        <div class="timeline-item" th:each="edu : ${educations}">
+        <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-card">
-                <div class="timeline-header">
-                    <h3 class="timeline-role" th:text="${edu.degree}">B.S. in Computer Science</h3>
-                    <span class="timeline-period" th:text="${edu.year}">2019</span>
+                <span class="timeline-date"><i class="fas fa-calendar"></i> 2024</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 8px;">
+                    <h3 style="font-size: 1.1rem; margin: 0;">Built Programming Skills</h3>
+                    <span class="timeline-badge milestone">Milestone</span>
                 </div>
-                <div class="timeline-company" th:text="${edu.institution}">University</div>
-                <p class="timeline-desc" th:text="${edu.details}">Graduated with Honors...</p>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin: 0;">
+                    Learned and practiced Java, HTML, CSS, JavaScript, and database concepts through academics and personal projects.
+                </p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+                <span class="timeline-date"><i class="fas fa-calendar"></i> 2025</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 8px;">
+                    <h3 style="font-size: 1.1rem; margin: 0;">Started Web Development</h3>
+                    <span class="timeline-badge work">Experience</span>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin: 0;">
+                    Focused on full-stack web development and began working with Java, Spring Boot, MySQL, Thymeleaf, and modern web technologies.
+                </p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+                <span class="timeline-date"><i class="fas fa-calendar"></i> 2026</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 8px;">
+                    <h3 style="font-size: 1.1rem; margin: 0;">Java Spring Boot Training</h3>
+                    <span class="timeline-badge achievement">Achievement</span>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin: 0;">
+                    Successfully completed a 45-day Summer Training in Java Spring Boot at Techpile Technology Pvt. Ltd., Lucknow, receiving an A++ Grade.
+                </p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+                <span class="timeline-date"><i class="fas fa-calendar"></i> 2026</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 8px;">
+                    <h3 style="font-size: 1.1rem; margin: 0;">Project Development</h3>
+                    <span class="timeline-badge work">Experience</span>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin: 0;">
+                    Worked on practical projects such as ViastaStore, gaining hands-on experience in backend development, database integration, authentication, and responsive UI.
+                </p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+                <span class="timeline-date"><i class="fas fa-calendar"></i> 2027</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 8px;">
+                    <h3 style="font-size: 1.1rem; margin: 0;">Future Goal</h3>
+                    <span class="timeline-badge goal">Goal</span>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin: 0;">
+                    Complete B.Tech and start my professional career as a Java/Spring Boot Developer, while continuously improving my technical and problem-solving skills.
+                </p>
             </div>
         </div>
     </div>
