@@ -4,11 +4,15 @@ import com.portfolio.app.model.Certificate;
 import com.portfolio.app.repository.CertificateRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,14 +29,40 @@ public class CertificateService {
         this.certificateRepository = certificateRepository;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public List<Certificate> getAllCertificates() {
-        return certificateRepository.findAllByOrderByUploadedAtDesc();
+        List<Certificate> list = certificateRepository.findAllByOrderByUploadedAtDesc();
+        // Check if list is empty or contains old dummy certificates
+        boolean hasDummy = list.isEmpty() || list.stream().anyMatch(c ->
+                c.getTitle() != null && (c.getTitle().contains("Java SE 17 Developer")
+                        || c.getTitle().contains("AWS Certified Solutions")
+                        || c.getTitle().contains("Spring Boot & Microservices Masterclass")
+                        || c.getTitle().contains("Add Your Certificate Title"))
+        );
+
+        if (hasDummy) {
+            initDefaultCertificatesIfNotPresent();
+            return certificateRepository.findAllByOrderByUploadedAtDesc();
+        }
+        return list;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Optional<Certificate> getCertificateById(Long id) {
-        return certificateRepository.findById(id);
+        Optional<Certificate> opt = certificateRepository.findById(id);
+        if (opt.isPresent()) {
+            Certificate c = opt.get();
+            // Fallback: If fileData is missing, load it from classpath/static
+            if (c.getFileData() == null || c.getFileData().length == 0) {
+                byte[] bytes = loadCertificateBytesForFilename(c.getFileName());
+                if (bytes.length > 0) {
+                    c.setFileData(bytes);
+                    c.setFileSize((long) bytes.length);
+                    certificateRepository.save(c);
+                }
+            }
+        }
+        return opt;
     }
 
     @Transactional(readOnly = true)
@@ -113,57 +143,124 @@ public class CertificateService {
     }
 
     /**
-     * Seeds initial certificates if the repository is empty.
+     * Seeds initial certificates if the repository is empty or has old dummy data.
      */
     @Transactional
     public void initDefaultCertificatesIfNotPresent() {
+        boolean needsUpdate = false;
         if (certificateRepository.count() == 0) {
-            byte[] samplePdf = createSampleCertificatePdf("Oracle Certified Professional", "Altaf Hussain");
+            needsUpdate = true;
+        } else {
+            List<Certificate> current = certificateRepository.findAll();
+            for (Certificate c : current) {
+                if (c.getTitle() != null && (c.getTitle().contains("Java SE 17 Developer")
+                        || c.getTitle().contains("AWS Certified Solutions")
+                        || c.getTitle().contains("Spring Boot & Microservices Masterclass")
+                        || c.getTitle().contains("Add Your Certificate Title")
+                        || c.getTitle().contains("Temporary Cert"))) {
+                    needsUpdate = true;
+                    break;
+                }
+            }
+        }
+
+        if (needsUpdate) {
+            certificateRepository.deleteAll();
+
+            byte[] trainingPdf = loadCertificateBytesForFilename("TrainingCertificate.pdf");
+            byte[] internPdf = loadCertificateBytesForFilename("InternCertificate.pdf");
+            byte[] oracleImg = loadCertificateBytesForFilename("Certificate.jpeg");
 
             Certificate cert1 = new Certificate(
-                    "Oracle Certified Professional: Java SE 17 Developer",
-                    "Oracle",
-                    "August 2024",
-                    "OCP-9482710",
-                    "https://catalog-education.oracle.com",
-                    "Covers modern Java SE features, OOP, streams & functional programming, concurrency, and virtual threads.",
-                    "Oracle_Java_SE_17_Certificate.pdf",
+                    "Java Spring Boot Summer Training",
+                    "Techpile Technology Pvt. Ltd., Lucknow",
+                    "2026",
+                    "TECHPILE-2026-A++",
+                    "https://www.techpile.in",
+                    "Completed a 45-day intensive Summer Training in Java Spring Boot, covering REST APIs, MVC architecture, database integration, and project development.",
+                    "TrainingCertificate.pdf",
                     "application/pdf",
-                    (long) samplePdf.length,
-                    samplePdf
+                    trainingPdf.length > 0 ? (long) trainingPdf.length : 899780L,
+                    trainingPdf.length > 0 ? trainingPdf : createSampleCertificatePdf("Java Spring Boot Summer Training", "Altaf Hussain")
             );
 
-            byte[] samplePdf2 = createSampleCertificatePdf("AWS Certified Solutions Architect", "Altaf Hussain");
-
             Certificate cert2 = new Certificate(
-                    "AWS Certified Solutions Architect - Associate",
-                    "Amazon Web Services (AWS)",
-                    "May 2024",
-                    "AWS-SAA-839201",
-                    "https://aws.amazon.com/verification",
-                    "Demonstrates expertise in distributed cloud architectures, high availability, security, VPCs, and auto-scaling.",
-                    "AWS_Solutions_Architect_Certificate.pdf",
+                    "Web Development Internship",
+                    "Online / Remote",
+                    "Nov – Dec 2025",
+                    "INTERN-2025-WEB",
+                    "https://www.codealpha.tech",
+                    "Completed a full-stack web development internship working with HTML, CSS, JavaScript, Node.js, Express.js, and MongoDB to build production-ready features.",
+                    "InternCertificate.pdf",
                     "application/pdf",
-                    (long) samplePdf2.length,
-                    samplePdf2
+                    internPdf.length > 0 ? (long) internPdf.length : 184927L,
+                    internPdf.length > 0 ? internPdf : createSampleCertificatePdf("Web Development Internship", "Altaf Hussain")
             );
 
             Certificate cert3 = new Certificate(
-                    "Spring Boot & Microservices Masterclass",
-                    "Udemy / Java Academy",
-                    "January 2024",
-                    "UC-59281938",
-                    "https://www.udemy.com/certificate/UC-59281938/",
-                    "Comprehensive hands-on engineering of Spring Boot 3, Spring Data JPA, Spring Security, RESTful APIs, and Docker.",
-                    "Spring_Boot_Microservices_Cert.pdf",
-                    "application/pdf",
-                    (long) samplePdf.length,
-                    samplePdf
+                    "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate",
+                    "Oracle University",
+                    "October 01, 2025",
+                    "102799019OCI25AICFA",
+                    "https://education.oracle.com",
+                    "Demonstrates foundational knowledge of Artificial Intelligence, Machine Learning, Deep Learning, and Generative AI services on Oracle Cloud Infrastructure.",
+                    "Certificate.jpeg",
+                    "image/jpeg",
+                    oracleImg.length > 0 ? (long) oracleImg.length : 57774L,
+                    oracleImg.length > 0 ? oracleImg : createSampleCertificatePdf("Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate", "Altaf Hussain")
             );
 
             certificateRepository.saveAll(List.of(cert1, cert2, cert3));
-            log.info("Default initial certificates seeded successfully (3 records).");
+            log.info("Vercel-matched real certificates seeded successfully (3 records).");
         }
+    }
+
+    private byte[] loadCertificateBytesForFilename(String filename) {
+        if (filename == null || filename.isBlank()) return new byte[0];
+
+        String[] candidatePaths = {
+                "static/images/" + filename,
+                "static/" + filename,
+                "images/" + filename
+        };
+
+        for (String path : candidatePaths) {
+            byte[] bytes = loadResourceBytes(path);
+            if (bytes.length > 0) return bytes;
+        }
+
+        if (filename.equalsIgnoreCase("Certificate.jpeg")) {
+            byte[] bytes = loadResourceBytes("static/images/Certificate .jpeg");
+            if (bytes.length > 0) return bytes;
+        }
+
+        return new byte[0];
+    }
+
+    private byte[] loadResourceBytes(String path) {
+        try {
+            ClassPathResource resource = new ClassPathResource(path);
+            if (resource.exists()) {
+                try (InputStream is = resource.getInputStream()) {
+                    return is.readAllBytes();
+                }
+            }
+            File f = new File("src/main/resources/" + path);
+            if (f.exists()) {
+                try (FileInputStream fis = new FileInputStream(f)) {
+                    return fis.readAllBytes();
+                }
+            }
+            File f2 = new File("portfolio/src/main/resources/" + path);
+            if (f2.exists()) {
+                try (FileInputStream fis = new FileInputStream(f2)) {
+                    return fis.readAllBytes();
+                }
+            }
+        } catch (Exception e) {
+            log.warn("Could not load resource bytes from path {}: {}", path, e.getMessage());
+        }
+        return new byte[0];
     }
 
     private byte[] createSampleCertificatePdf(String certName, String recipientName) {
@@ -201,4 +298,3 @@ public class CertificateService {
         return pdf.getBytes(StandardCharsets.US_ASCII);
     }
 }
-

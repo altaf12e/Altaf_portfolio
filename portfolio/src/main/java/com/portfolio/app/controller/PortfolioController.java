@@ -118,10 +118,8 @@ public class PortfolioController {
     ) {
         List<String> categories = Arrays.asList(
                 "All",
-                "Backend",
                 "Fullstack",
-                "Cloud / DevOps",
-                "AI / Tools"
+                "Frontend"
         );
 
         model.addAttribute("categories", categories);
@@ -189,6 +187,11 @@ public class PortfolioController {
                             .body((Resource) resource);
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping({"/Resume.pdf", "/resume.pdf"})
+    public ResponseEntity<Resource> directResumePdf() {
+        return viewResume();
     }
 
     @GetMapping("/certificates")

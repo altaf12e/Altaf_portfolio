@@ -23,19 +23,13 @@
         <div class="filter-pills">
             <button type="button" class="filter-pill"
                     th:classappend="${selectedCategory == 'All' or selectedCategory == null ? 'active' : ''}"
-                    data-filter="All">All Projects</button>
-            <button type="button" class="filter-pill"
-                    th:classappend="${selectedCategory == 'Backend' ? 'active' : ''}"
-                    data-filter="Backend">Backend</button>
+                    data-filter="All">All</button>
             <button type="button" class="filter-pill"
                     th:classappend="${selectedCategory == 'Fullstack' ? 'active' : ''}"
-                    data-filter="Fullstack">Fullstack</button>
+                    data-filter="Fullstack">Full Stack</button>
             <button type="button" class="filter-pill"
-                    th:classappend="${selectedCategory == 'Cloud / DevOps' ? 'active' : ''}"
-                    data-filter="Cloud / DevOps">Cloud / DevOps</button>
-            <button type="button" class="filter-pill"
-                    th:classappend="${selectedCategory == 'AI / Tools' ? 'active' : ''}"
-                    data-filter="AI / Tools">AI / Tools</button>
+                    th:classappend="${selectedCategory == 'Frontend' ? 'active' : ''}"
+                    data-filter="Frontend">Frontend</button>
         </div>
 
         <div class="search-box">

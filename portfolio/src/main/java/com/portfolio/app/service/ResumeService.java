@@ -4,11 +4,15 @@ import com.portfolio.app.model.ResumeDocument;
 import com.portfolio.app.repository.ResumeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -24,14 +28,47 @@ public class ResumeService {
         this.resumeRepository = resumeRepository;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Optional<ResumeDocument> getLatestResume() {
-        return resumeRepository.findTopByOrderByUploadedAtDesc();
+        Optional<ResumeDocument> opt = resumeRepository.findTopByOrderByUploadedAtDesc();
+        if (opt.isPresent()) {
+            ResumeDocument doc = opt.get();
+            if (!isOldDummyResume(doc.getData())) {
+                return opt;
+            }
+            // Existing doc is dummy or empty, replace with real PDF
+            byte[] realBytes = loadRealResumeBytes();
+            if (realBytes.length > 0) {
+                doc.setFileName("Altaf_Hussain_Resume.pdf");
+                doc.setContentType("application/pdf");
+                doc.setFileSize((long) realBytes.length);
+                doc.setData(realBytes);
+                doc.setUploadedAt(LocalDateTime.now());
+                resumeRepository.save(doc);
+                log.info("Replaced dummy resume with real Altaf_Hussain_Resume.pdf ({} bytes)", realBytes.length);
+                return Optional.of(doc);
+            }
+            return opt;
+        }
+
+        // None present: seed default real resume
+        byte[] realBytes = loadRealResumeBytes();
+        if (realBytes.length > 0) {
+            ResumeDocument doc = new ResumeDocument(
+                    "Altaf_Hussain_Resume.pdf",
+                    "application/pdf",
+                    (long) realBytes.length,
+                    realBytes
+            );
+            return Optional.of(resumeRepository.save(doc));
+        }
+
+        return Optional.empty();
     }
 
     @Transactional(readOnly = true)
     public boolean hasResume() {
-        return resumeRepository.count() > 0;
+        return resumeRepository.count() > 0 || loadRealResumeBytes().length > 0;
     }
 
     /**
@@ -81,21 +118,79 @@ public class ResumeService {
     }
 
     /**
-     * Initialize default resume seed if no document exists yet.
+     * Initialize default resume seed if no document exists yet or if existing is a dummy placeholder.
      */
     @Transactional
     public void initDefaultResumeIfNotPresent() {
-        if (resumeRepository.count() == 0) {
-            byte[] defaultPdf = createDefaultPdfBytes("Altaf Hussain");
-            ResumeDocument doc = new ResumeDocument(
-                    "Altaf_Hussain_Resume.pdf",
-                    "application/pdf",
-                    (long) defaultPdf.length,
-                    defaultPdf
-            );
+        Optional<ResumeDocument> existing = resumeRepository.findTopByOrderByUploadedAtDesc();
+        boolean needsSeed = existing.isEmpty() || isOldDummyResume(existing.get().getData());
+
+        if (needsSeed) {
+            byte[] realPdf = loadRealResumeBytes();
+            if (realPdf.length == 0) {
+                realPdf = createDefaultPdfBytes("Altaf Hussain");
+            }
+
+            ResumeDocument doc = existing.orElseGet(ResumeDocument::new);
+            doc.setFileName("Altaf_Hussain_Resume.pdf");
+            doc.setContentType("application/pdf");
+            doc.setFileSize((long) realPdf.length);
+            doc.setData(realPdf);
+            doc.setUploadedAt(LocalDateTime.now());
             resumeRepository.save(doc);
-            log.info("Default initial resume seeded successfully.");
+            log.info("Default initial real resume seeded successfully ({} bytes).", realPdf.length);
         }
+    }
+
+    private boolean isOldDummyResume(byte[] data) {
+        if (data == null || data.length == 0) return true;
+        if (data.length < 1500) {
+            String s = new String(data, StandardCharsets.ISO_8859_1);
+            return s.contains("(Full Stack Developer | Spring Boot & Java Engineer)")
+                    || s.contains("Altaf Hussain - Resume");
+        }
+        return false;
+    }
+
+    private byte[] loadRealResumeBytes() {
+        String[] possiblePaths = {
+                "static/Resume.pdf",
+                "static/images/Resume.pdf",
+                "Resume.pdf"
+        };
+        for (String path : possiblePaths) {
+            byte[] b = loadResourceBytes(path);
+            if (b.length > 5000) {
+                return b;
+            }
+        }
+        return new byte[0];
+    }
+
+    private byte[] loadResourceBytes(String path) {
+        try {
+            ClassPathResource resource = new ClassPathResource(path);
+            if (resource.exists()) {
+                try (InputStream is = resource.getInputStream()) {
+                    return is.readAllBytes();
+                }
+            }
+            File f = new File("src/main/resources/" + path);
+            if (f.exists()) {
+                try (FileInputStream fis = new FileInputStream(f)) {
+                    return fis.readAllBytes();
+                }
+            }
+            File f2 = new File("portfolio/src/main/resources/" + path);
+            if (f2.exists()) {
+                try (FileInputStream fis = new FileInputStream(f2)) {
+                    return fis.readAllBytes();
+                }
+            }
+        } catch (Exception e) {
+            log.warn("Could not load resume bytes from path {}: {}", path, e.getMessage());
+        }
+        return new byte[0];
     }
 
     private byte[] createDefaultPdfBytes(String authorName) {
@@ -130,4 +225,3 @@ public class ResumeService {
         return pdf.getBytes(StandardCharsets.US_ASCII);
     }
 }
-

@@ -293,227 +293,220 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private void initProjects() {
-
+        boolean needsUpdate = false;
         if (projectRepository.count() == 0) {
+            needsUpdate = true;
+        } else {
+            java.util.List<Project> current = projectRepository.findAll();
+            for (Project p : current) {
+                if (p.getTitle() != null && (p.getTitle().contains("Cloud Task")
+                        || p.getTitle().contains("High-Throughput E-Commerce API")
+                        || p.getTitle().contains("DevOps Observability")
+                        || p.getTitle().contains("Real-Time Collaboration")
+                        || p.getTitle().contains("Full-Stack Portfolio")
+                        || p.getTitle().contains("AI Resume Matcher"))) {
+                    needsUpdate = true;
+                    break;
+                }
+            }
+            if (current.size() != 5) {
+                needsUpdate = true;
+            }
+        }
+
+        if (needsUpdate) {
+            projectRepository.deleteAll();
 
             Project p1 = new Project(
-                    "Cloud Task & Workflow Microservices",
-                    "Distributed enterprise task orchestration engine",
-                    "A fault-tolerant microservice architecture for workflow scheduling, event processing, and distributed task execution built with Spring Boot 3, Spring Cloud Gateway, Apache Kafka, and PostgreSQL.",
-                    "Backend",
-                    Arrays.asList(
-                            "Java 21",
-                            "Spring Boot 3",
-                            "Spring Cloud",
-                            "Kafka",
-                            "PostgreSQL",
-                            "Docker"
-                    ),
-                    "https://github.com",
-                    "https://example.com/demo/tasks",
-                    "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
-                    true
-            );
-
-            p1.setLikesCount(48);
-            p1.setViewCount(320);
-
-            Project p2 = new Project(
-                    "High-Throughput E-Commerce API",
-                    "Real-time inventory and checkout processing pipeline",
-                    "Event-driven order management system with distributed transaction coordination using Saga pattern, Redis multi-level caching, Stripe webhook integration, and resilient circuit breakers via Resilience4j.",
-                    "Backend",
-                    Arrays.asList(
-                            "Java 17",
-                            "Spring Boot",
-                            "Redis",
-                            "Resilience4j",
-                            "MySQL",
-                            "Docker"
-                    ),
-                    "https://github.com",
-                    "https://example.com/demo/shop",
+                    "E-Commerce App",
+                    "Full-Stack Shopping Application",
+                    "A full-stack shopping app with cart, authentication, and payment features.",
+                    "Fullstack",
+                    Arrays.asList("HTML", "CSS", "JavaScript", "Node.js", "MongoDB"),
+                    "https://github.com/altaf12e/E-commerce",
+                    "https://github.com/altaf12e/E-commerce",
                     "https://images.unsplash.com/photo-1556742049-0a67e55722c0?auto=format&fit=crop&w=800&q=80",
                     true
             );
+            p1.setLikesCount(12);
+            p1.setViewCount(140);
 
-            p2.setLikesCount(35);
-            p2.setViewCount(240);
+            Project p2 = new Project(
+                    "ViastaStore-ECommerce Website",
+                    "Spring Boot & MySQL E-Commerce Platform",
+                    "ViastaStore is a full-stack e-commerce website built with Java Spring Boot, MySQL, Thymeleaf, HTML, CSS, and JavaScript, featuring product browsing, cart, wishlist, authentication, orders, and admin management.",
+                    "Fullstack",
+                    Arrays.asList("Java", "SpringBoot", "MySQL", "Thymeleaf", "HTML", "CSS", "JavaScript"),
+                    "https://github.com/altaf12e/ViastaStore-Ecommerce-Website",
+                    "https://github.com/altaf12e/ViastaStore-Ecommerce-Website",
+                    "https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=800&q=80",
+                    true
+            );
+            p2.setLikesCount(28);
+            p2.setViewCount(290);
 
             Project p3 = new Project(
-                    "Full-Stack Portfolio & CMS Platform",
-                    "Modern Spring Boot showcase with interactive dashboard",
-                    "Production-ready portfolio web application featuring dynamic H2/MySQL persistence, secured role-based Admin CMS, live project search and category filtering, printable resume, and visitor analytics.",
+                    "Quiz App",
+                    "Interactive Quiz Application",
+                    "Interactive quiz app with timer, score tracking, and multiple categories.",
+                    "Frontend",
+                    Arrays.asList("HTML", "CSS", "JavaScript", "Express.js"),
+                    "https://github.com/altaf12e/CodeQuest-QUIZ-BASED-WEBSITE",
+                    "https://github.com/altaf12e/CodeQuest-QUIZ-BASED-WEBSITE",
+                    "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?auto=format&fit=crop&w=800&q=80",
+                    true
+            );
+            p3.setLikesCount(19);
+            p3.setViewCount(210);
+
+            Project p4 = new Project(
+                    "Social Media App",
+                    "Interactive Social Network Platform",
+                    "Sleek social media app with secure messaging, personalized feeds, and multilingual support.",
                     "Fullstack",
-                    Arrays.asList(
-                            "Spring Boot 3",
-                            "Thymeleaf",
-                            "Spring Security",
-                            "JPA",
-                            "Vanilla JS",
-                            "CSS3"
-                    ),
-                    "https://github.com",
-                    "#",
+                    Arrays.asList("HTML", "CSS", "JavaScript", "Node.js", "MongoDB"),
+                    "https://github.com/altaf12e/Social-Media-App",
+                    "https://github.com/altaf12e/Social-Media-App",
+                    "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80",
+                    true
+            );
+            p4.setLikesCount(24);
+            p4.setViewCount(260);
+
+            Project p5 = new Project(
+                    "Portfolio Website",
+                    "Modern Portfolio & Interactive Showcase",
+                    "A personal portfolio website with dark/light mode, particle background, typed animations, skill bars, timeline, and project filters.",
+                    "Frontend",
+                    Arrays.asList("HTML", "CSS", "JavaScript", "SpringBoot", "Thymeleaf"),
+                    "https://github.com/altaf12e/Altaf_portfolio",
+                    "https://altaf-ten.vercel.app/",
                     "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
                     true
             );
+            p5.setLikesCount(35);
+            p5.setViewCount(380);
 
-            p3.setLikesCount(62);
-            p3.setViewCount(510);
-
-            Project p4 = new Project(
-                    "DevOps Observability & Health Portal",
-                    "Real-time container metrics & automated alert system",
-                    "Centralized monitoring dashboard aggregating Prometheus metrics, Spring Boot Actuator endpoints, and Docker container health checks with customizable Slack webhook notification triggers.",
-                    "Cloud / DevOps",
-                    Arrays.asList(
-                            "Spring Boot",
-                            "Prometheus",
-                            "Grafana",
-                            "Docker",
-                            "Kubernetes",
-                            "AWS"
-                    ),
-                    "https://github.com",
-                    "https://example.com/demo/devops",
-                    "https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=800&q=80",
-                    false
-            );
-
-            p4.setLikesCount(29);
-            p4.setViewCount(190);
-
-            Project p5 = new Project(
-                    "AI Resume Matcher & Skill Extractor",
-                    "NLP-powered candidate job fit scoring engine",
-                    "Intelligent document parsing application analyzing PDF resumes against job requirements, extracting key skills, and generating semantic similarity scores with OpenAI API and Spring AI.",
-                    "AI / Tools",
-                    Arrays.asList(
-                            "Spring AI",
-                            "Java",
-                            "OpenAI API",
-                            "PostgreSQL",
-                            "Apache PDFBox"
-                    ),
-                    "https://github.com",
-                    "https://example.com/demo/resume-ai",
-                    "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80",
-                    true
-            );
-
-            p5.setLikesCount(54);
-            p5.setViewCount(430);
-
-            Project p6 = new Project(
-                    "Real-Time Collaboration & Chat Engine",
-                    "WebSocket-based multi-room messaging platform",
-                    "Low-latency communication server supporting WebSocket STOMP protocol, message persistence with MongoDB, presence tracking, and end-to-end message acknowledgement guarantees.",
-                    "Fullstack",
-                    Arrays.asList(
-                            "Spring WebSockets",
-                            "STOMP",
-                            "SockJS",
-                            "Redis Pub/Sub",
-                            "Bootstrap"
-                    ),
-                    "https://github.com",
-                    "https://example.com/demo/chat",
-                    "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
-                    false
-            );
-
-            p6.setLikesCount(22);
-            p6.setViewCount(165);
-
-            /*
-             * Save projects one by one.
-             * This ensures that each parent Project is saved
-             * before Hibernate inserts its technologies.
-             */
             projectRepository.save(p1);
             projectRepository.save(p2);
             projectRepository.save(p3);
             projectRepository.save(p4);
             projectRepository.save(p5);
-            projectRepository.save(p6);
 
-            log.info("Projects initialized successfully.");
+            log.info("Vercel-matched real projects initialized successfully (5 records).");
         }
     }
 
     private void initExperiences() {
-
+        boolean needsUpdate = false;
         if (experienceRepository.count() == 0) {
+            needsUpdate = true;
+        } else {
+            java.util.List<Experience> current = experienceRepository.findAll();
+            for (Experience e : current) {
+                if (e.getCompany() != null && (e.getCompany().contains("Apex Cloud Solutions")
+                        || e.getCompany().contains("NextGen Fintech")
+                        || e.getCompany().contains("DataWave Technologies"))) {
+                    needsUpdate = true;
+                    break;
+                }
+            }
+        }
+
+        if (needsUpdate) {
+            experienceRepository.deleteAll();
 
             experienceRepository.saveAll(Arrays.asList(
-
                     new Experience(
-                            "Senior Backend Engineer",
-                            "Apex Cloud Solutions",
-                            "https://example.com",
-                            "San Francisco, CA",
-                            "2023 - Present",
-                            "Leading the design and development of core microservices handling over 50M daily API requests. Migrated monolithic services to containerized Spring Boot microservices on AWS EKS, improving deployment cycle time by 60%. Mentored junior engineers and instituted automated integration testing with Testcontainers.",
-                            "Java 21, Spring Boot 3, Kafka, Docker, Kubernetes, AWS EKS, PostgreSQL",
+                            "Java Spring Boot Training",
+                            "Techpile Technology Pvt. Ltd., Lucknow",
+                            "https://www.techpile.in",
+                            "Lucknow, India",
+                            "2026",
+                            "Successfully completed a 45-day intensive Summer Training in Java Spring Boot at Techpile Technology Pvt. Ltd., Lucknow, receiving an A++ Grade.",
+                            "Java, Spring Boot, REST APIs, MVC Architecture, MySQL, Git",
                             1
                     ),
-
                     new Experience(
-                            "Software Development Engineer",
-                            "NextGen Fintech Systems",
-                            "https://example.com",
-                            "Austin, TX",
-                            "2021 - 2023",
-                            "Engineered transaction reconciliation pipelines and RESTful banking integrations. Designed Redis caching layers that reduced p99 query latency from 320ms to 45ms. Built comprehensive JUnit 5 and Mockito test suites attaining 94% test coverage.",
-                            "Java 17, Spring Boot, Spring Data JPA, Redis, MySQL, JUnit 5, GitHub Actions",
+                            "Project Development (ViastaStore)",
+                            "Self-Driven & Academic Project",
+                            "https://github.com/altaf12e/ViastaStore-Ecommerce-Website",
+                            "Lucknow, India",
+                            "2026",
+                            "Worked on practical projects such as ViastaStore, gaining hands-on experience in backend development, database integration, authentication, and responsive UI.",
+                            "Java, Spring Boot, MySQL, Thymeleaf, HTML5, CSS3, JavaScript",
                             2
                     ),
-
                     new Experience(
-                            "Junior Java Developer",
-                            "DataWave Technologies",
-                            "https://example.com",
-                            "San Jose, CA",
-                            "2019 - 2021",
-                            "Developed web APIs, maintained client-facing dashboards using Spring Boot and Thymeleaf, and resolved critical production bug fixes. Automated internal reporting tools reducing manual processing by 15 hours per week.",
-                            "Java, Spring MVC, Hibernate, JavaScript, CSS, HTML, PostgreSQL",
+                            "Full-Stack Web Development",
+                            "Personal & Open Source Projects",
+                            "https://github.com/altaf12e",
+                            "Lucknow, India",
+                            "2025",
+                            "Focused on full-stack web development and began working with Java, Spring Boot, MySQL, Thymeleaf, and modern web technologies.",
+                            "Java, Spring Boot, Node.js, Express.js, MongoDB, JavaScript",
                             3
+                    ),
+                    new Experience(
+                            "Programming Foundations",
+                            "Academic & Skill Building",
+                            "https://github.com/altaf12e",
+                            "Lucknow, India",
+                            "2024",
+                            "Learned and practiced Java, HTML, CSS, JavaScript, and database concepts through academics and personal projects.",
+                            "Java, Data Structures, OOP, SQL, HTML, CSS, JavaScript",
+                            4
+                    ),
+                    new Experience(
+                            "Started B.Tech Computer Science",
+                            "Dr. A.P.J. Abdul Kalam Technical University",
+                            "https://aktu.ac.in",
+                            "Lucknow, India",
+                            "2023",
+                            "Started Bachelor of Technology in Computer Science and began building a strong foundation in programming and computer science.",
+                            "Computer Science, Programming Fundamentals, Algorithms",
+                            5
                     )
             ));
+            log.info("Vercel-matched timeline experiences initialized successfully.");
         }
     }
 
     private void initEducation() {
-
+        boolean needsUpdate = false;
         if (educationRepository.count() == 0) {
+            needsUpdate = true;
+        } else {
+            java.util.List<Education> current = educationRepository.findAll();
+            for (Education ed : current) {
+                if (ed.getInstitution() != null && (ed.getInstitution().contains("University of California")
+                        || ed.getDegree().contains("AWS Certified Solutions"))) {
+                    needsUpdate = true;
+                    break;
+                }
+            }
+        }
+
+        if (needsUpdate) {
+            educationRepository.deleteAll();
 
             educationRepository.saveAll(Arrays.asList(
-
                     new Education(
-                            "Bachelor of Science in Computer Science",
-                            "University of California / Tech Institute",
-                            "2015 - 2019",
-                            "Graduated with Honors (Magna Cum Laude). Focus on Data Structures, Algorithms, Distributed Systems, and Database Management.",
+                            "Bachelor of Technology in Computer Science",
+                            "Dr. A.P.J. Abdul Kalam Technical University, Lucknow",
+                            "2023 - 2027",
+                            "Pursuing B.Tech in Computer Science & Engineering. SGPA: 8.0/10. Focus on Software Engineering, Data Structures, Algorithms, and Full-Stack Web Development.",
                             1
                     ),
-
                     new Education(
-                            "AWS Certified Solutions Architect – Associate",
-                            "Amazon Web Services (AWS)",
-                            "2023",
-                            "Validation of expertise in designing highly available, cost-efficient, and secure cloud architectures on AWS.",
-                            2
-                    ),
-
-                    new Education(
-                            "Oracle Certified Professional: Java SE 17 Developer",
-                            "Oracle Corporation",
+                            "Class 12th (Senior Secondary)",
+                            "Bihar School Examination Board, Patna (Bihar)",
                             "2022",
-                            "Comprehensive certification covering modern Java functional programming, concurrency, streams, and modular architectures.",
-                            3
+                            "Completed Senior Secondary Education with Science stream (63.4%).",
+                            2
                     )
             ));
+            log.info("Real education records initialized successfully.");
         }
     }
 
