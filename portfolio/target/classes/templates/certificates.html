@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="'Certifications & Licenses | ' + ${fullName}">Certifications &amp; Licenses | Altaf Hussain</title>
+    <title th:text="'Certificates | ' + ${fullName}">Certificates | Altaf Hussain</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
@@ -11,11 +11,12 @@
 
 <div th:replace="~{fragments/layout :: navbar}"></div>
 
-<section class="section" style="padding-top: 40px;">
+<!-- Certificates Section (Exact Vercel Match) -->
+<section class="section" id="certificates" style="padding-top: 40px;">
     <div class="section-header">
         <div>
-            <h1 class="section-title">Licenses &amp; Certifications</h1>
-            <p class="section-subtitle">Verified professional credentials, cloud architectures, and specialized proficiencies.</p>
+            <h1 class="section-title">Certificates</h1>
+            <p class="section-subtitle">Verified professional credentials, training certifications, and specialized proficiencies.</p>
         </div>
         <div style="display: flex; gap: 10px; align-items: center;">
             <span class="cert-count-badge" th:text="${totalCertificates} + ' Certified Credentials'">3 Certified Credentials</span>
@@ -24,52 +25,59 @@
 
     <!-- Certificates Grid -->
     <div class="certificates-grid" th:if="${not #lists.isEmpty(certificates)}">
-        <div class="certificate-card" th:each="cert : ${certificates}">
-            <div class="cert-card-header">
-                <div class="cert-org-icon">
-                    <span th:if="${#strings.containsIgnoreCase(cert.issuingOrganization, 'aws') or #strings.containsIgnoreCase(cert.issuingOrganization, 'amazon')}">☁️</span>
-                    <span th:unless="${#strings.containsIgnoreCase(cert.issuingOrganization, 'aws') or #strings.containsIgnoreCase(cert.issuingOrganization, 'amazon')}">📜</span>
-                </div>
-                <div class="cert-org-info">
-                    <span class="cert-org-name" th:text="${cert.issuingOrganization}">Issuing Organization</span>
-                    <span class="cert-issue-date" th:text="'Issued ' + ${cert.issueDate}">Issued Aug 2024</span>
-                </div>
+        <div class="cert-card" th:each="cert : ${certificates}"
+             th:attr="data-file=@{'/certificates/view/' + ${cert.id}}, data-title=${cert.title}, data-type=${cert.isPdf() ? 'pdf' : 'image'}">
+            
+            <div class="cert-icon">
+                <i th:if="${#strings.containsIgnoreCase(cert.title, 'Spring') or #strings.containsIgnoreCase(cert.title, 'Training')}" class="fas fa-certificate"></i>
+                <i th:if="${#strings.containsIgnoreCase(cert.title, 'Intern') or #strings.containsIgnoreCase(cert.title, 'Web Development') or #strings.containsIgnoreCase(cert.title, 'Stack')}" class="fas fa-award"></i>
+                <i th:if="${#strings.containsIgnoreCase(cert.issuingOrganization, 'Oracle') or #strings.containsIgnoreCase(cert.title, 'Oracle') or #strings.containsIgnoreCase(cert.title, 'Associate')}" class="fas fa-medal"></i>
+                <i th:unless="${#strings.containsIgnoreCase(cert.title, 'Spring') or #strings.containsIgnoreCase(cert.title, 'Training') or #strings.containsIgnoreCase(cert.title, 'Intern') or #strings.containsIgnoreCase(cert.title, 'Web Development') or #strings.containsIgnoreCase(cert.title, 'Stack') or #strings.containsIgnoreCase(cert.issuingOrganization, 'Oracle')}" class="fas fa-certificate"></i>
             </div>
 
-            <div class="cert-card-body">
-                <h2 class="cert-title" th:text="${cert.title}">Oracle Certified Professional: Java SE 17 Developer</h2>
-
-                <div class="cert-meta" th:if="${cert.credentialId != null and !cert.credentialId.isBlank()}">
-                    <span class="cert-meta-label">Credential ID:</span>
-                    <code class="cert-meta-val" th:text="${cert.credentialId}">OCP-9482710</code>
-                </div>
-
-                <div class="cert-meta" th:if="${cert.expirationDate != null and !cert.expirationDate.isBlank()}">
-                    <span class="cert-meta-label">Expires:</span>
-                    <span class="cert-meta-val" th:text="${cert.expirationDate}">No Expiration</span>
-                </div>
-
-                <p class="cert-desc" th:if="${cert.description != null and !cert.description.isBlank()}" th:text="${cert.description}">
-                    Certification details and covered skills...
+            <div class="cert-body">
+                <h3 th:text="${cert.title}">Java Spring Boot Summer Training</h3>
+                
+                <p class="cert-issuer">
+                    <i class="fas fa-building"></i> 
+                    <span th:text="${cert.issuingOrganization}">Techpile Technology Pvt. Ltd., Lucknow</span>
                 </p>
 
-                <div class="cert-file-badge" th:if="${cert.hasFile()}">
-                    <span th:if="${cert.isPdf()}"><i class="fas fa-file-pdf" style="color: #f85149;"></i> PDF Document</span>
-                    <span th:if="${cert.isImage()}"><i class="fas fa-file-image" style="color: #58a6ff;"></i> Image Document</span>
-                    <span th:unless="${cert.isPdf() or cert.isImage()}"><i class="fas fa-file"></i> Document</span>
-                    <span class="cert-file-size" th:if="${cert.fileSize != null}" th:text="'(' + ${cert.formattedFileSize} + ')'">(120 KB)</span>
-                </div>
-            </div>
+                <p class="cert-desc" th:text="${cert.description}">
+                    Completed a 45-day intensive Summer Training in Java Spring Boot, covering REST APIs, MVC architecture, database integration, and project development.
+                </p>
 
-            <div class="cert-card-footer">
+                <div class="cert-meta">
+                    <span class="cert-badge" th:if="${#strings.containsIgnoreCase(cert.title, 'Spring')}">
+                        <i class="fas fa-star"></i> Grade: A++
+                    </span>
+                    <span class="cert-badge" th:if="${#strings.containsIgnoreCase(cert.title, 'Intern') or #strings.containsIgnoreCase(cert.title, 'Stack')}">
+                        <i class="fas fa-star"></i> Completed
+                    </span>
+                    <span class="cert-badge" th:if="${#strings.containsIgnoreCase(cert.issuingOrganization, 'Oracle')}">
+                        <i class="fas fa-star"></i> Oracle Certified
+                    </span>
+                    <span class="cert-badge" th:unless="${#strings.containsIgnoreCase(cert.title, 'Spring') or #strings.containsIgnoreCase(cert.title, 'Intern') or #strings.containsIgnoreCase(cert.title, 'Stack') or #strings.containsIgnoreCase(cert.issuingOrganization, 'Oracle')}">
+                        <i class="fas fa-star"></i> Certified
+                    </span>
+
+                    <span class="cert-date">
+                        <i class="fas fa-calendar"></i> 
+                        <span th:text="${cert.issueDate}">2026</span>
+                    </span>
+                </div>
+
                 <div class="cert-actions">
-                    <a th:if="${cert.hasFile()}" th:href="@{'/certificates/view/' + ${cert.id}}" target="_blank" class="btn btn-outline btn-sm" title="View certificate inline">
-                        <i class="fas fa-eye"></i> View
-                    </a>
-                    <a th:if="${cert.hasFile()}" th:href="@{'/certificates/download/' + ${cert.id}}" class="btn btn-primary btn-sm" title="Download certificate file">
+                    <button type="button" class="cert-view-btn"
+                            th:attr="data-url=@{'/certificates/view/' + ${cert.id}}, data-title=${cert.title}, data-type=${cert.isPdf() ? 'pdf' : 'image'}">
+                        <i class="fas fa-eye"></i> View Certificate
+                    </button>
+                    <a th:href="@{'/certificates/download/' + ${cert.id}}" class="cert-download-btn">
                         <i class="fas fa-download"></i> Download
                     </a>
-                    <a th:if="${cert.credentialUrl != null and !cert.credentialUrl.isBlank()}" th:href="${cert.credentialUrl}" target="_blank" rel="noopener" class="btn btn-outline btn-sm" title="Verify online credential">
+                    <a th:if="${cert.credentialUrl != null and !cert.credentialUrl.isBlank()}" 
+                       th:href="${cert.credentialUrl}" target="_blank" rel="noopener" class="cert-download-btn"
+                       style="background: transparent; border-color: var(--border); color: var(--text-muted);">
                         <i class="fas fa-external-link-alt"></i> Verify
                     </a>
                 </div>
@@ -88,8 +96,29 @@
     </div>
 </section>
 
+<!-- PDF & Certificate Modal (Exact Vercel Match) -->
+<div class="pdf-modal" id="pdfModal">
+    <div class="pdf-modal-overlay" id="pdfOverlay"></div>
+    <div class="pdf-modal-box">
+        <div class="pdf-modal-header">
+            <span id="pdfModalTitle"><i class="fas fa-certificate"></i> Certificate</span>
+            <div class="pdf-modal-controls">
+                <a id="pdfDownloadBtn" href="#" download class="pdf-ctrl-btn" title="Download"><i class="fas fa-download"></i></a>
+                <button type="button" class="pdf-ctrl-btn" id="pdfClose" title="Close"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <div style="flex: 1; width: 100%; height: 100%; overflow: auto; display: flex; align-items: center; justify-content: center; background: #0b0f19;">
+            <object id="pdfFrame" data="" type="application/pdf" style="width: 100%; height: 100%; border: none; display: block;">
+                <p style="color: var(--text-muted); padding: 2rem; text-align: center;">
+                    Unable to display PDF directly. <a id="pdfFallback" href="#" target="_blank" style="color: var(--primary);">Open in new tab</a>
+                </p>
+            </object>
+            <img id="certImageFrame" src="" alt="Certificate Preview" style="max-width: 100%; max-height: 100%; object-fit: contain; display: none; padding: 12px;" />
+        </div>
+    </div>
+</div>
+
 <div th:replace="~{fragments/layout :: footer}"></div>
 
 </body>
 </html>
-

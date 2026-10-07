@@ -1405,7 +1405,7 @@ a:hover {
     margin-top: 20px;
 }
 
-.certificate-card {
+.cert-card, .certificate-card {
     background: var(--bg-surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -1419,7 +1419,7 @@ a:hover {
     overflow: hidden;
 }
 
-.certificate-card::before {
+.cert-card::before, .certificate-card::before {
     content: '';
     position: absolute;
     top: 0;
@@ -1430,20 +1430,13 @@ a:hover {
     opacity: 0.85;
 }
 
-.certificate-card:hover {
+.cert-card:hover, .certificate-card:hover {
     transform: translateY(-4px);
     border-color: var(--primary);
     box-shadow: var(--shadow-hover);
 }
 
-.cert-card-header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 16px;
-}
-
-.cert-org-icon {
+.cert-icon, .cert-org-icon {
     width: 44px;
     height: 44px;
     border-radius: var(--radius-sm);
@@ -1453,7 +1446,22 @@ a:hover {
     align-items: center;
     justify-content: center;
     font-size: 1.4rem;
+    color: var(--primary);
     flex-shrink: 0;
+    margin-bottom: 14px;
+    transition: var(--transition);
+}
+
+.cert-card:hover .cert-icon, .certificate-card:hover .cert-org-icon {
+    transform: scale(1.08);
+    color: var(--accent);
+}
+
+.cert-card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
 }
 
 .cert-org-info {
@@ -1461,10 +1469,14 @@ a:hover {
     flex-direction: column;
 }
 
-.cert-org-name {
+.cert-issuer, .cert-org-name {
     font-weight: 700;
     font-size: 0.95rem;
     color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
 }
 
 .cert-issue-date {
@@ -1472,27 +1484,33 @@ a:hover {
     color: var(--text-dim);
 }
 
-.cert-card-body {
+.cert-body, .cert-card-body {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 8px;
+    margin-bottom: 18px;
 }
 
-.cert-title {
+.cert-body h3, .cert-title {
     font-size: 1.15rem;
     font-weight: 700;
     color: var(--text);
     line-height: 1.4;
+    margin: 0;
 }
 
 .cert-meta {
     font-size: 0.82rem;
     display: flex;
     align-items: center;
-    gap: 6px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
     color: var(--text-muted);
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
 }
 
 .cert-meta-label {
@@ -1504,6 +1522,27 @@ a:hover {
     padding: 2px 6px;
     border-radius: var(--radius-sm);
     color: var(--text);
+    font-size: 0.8rem;
+}
+
+.cert-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--primary-soft);
+    color: var(--primary);
+    border: 1px solid rgba(88, 166, 255, 0.25);
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.cert-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-dim);
     font-size: 0.8rem;
 }
 
@@ -1541,8 +1580,54 @@ a:hover {
 .cert-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 10px;
     align-items: center;
+    margin-top: auto;
+}
+
+.cert-view-btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: var(--primary);
+    color: #ffffff;
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 0.86rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.cert-view-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.cert-download-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: var(--bg-surface-elevated);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 0.86rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.cert-download-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
 }
 
 .cert-count-badge {
@@ -1553,6 +1638,99 @@ a:hover {
     font-size: 0.85rem;
     font-weight: 600;
     border: 1px solid rgba(88, 166, 255, 0.3);
+}
+
+/* ================= Certificate PDF/Image Preview Modal ================= */
+.pdf-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+.pdf-modal.active {
+    display: flex;
+}
+
+.pdf-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+}
+
+.pdf-modal-box {
+    position: relative;
+    width: 92%;
+    max-width: 950px;
+    height: 88vh;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 10;
+    animation: modalScaleUp 0.25s ease-out;
+}
+
+@keyframes modalScaleUp {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.pdf-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    background: var(--bg-surface-elevated);
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+    color: var(--text);
+}
+
+.pdf-modal-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pdf-ctrl-btn {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: var(--transition);
+}
+
+.pdf-ctrl-btn:hover {
+    color: var(--text);
+    border-color: var(--primary);
+    background: var(--primary-soft);
 }
 
 /* ================= Resume PDF Embedded Viewer & Toolbar ================= */

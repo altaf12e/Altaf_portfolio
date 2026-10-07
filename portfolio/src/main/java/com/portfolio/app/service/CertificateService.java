@@ -15,8 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CertificateService {
@@ -32,18 +31,57 @@ public class CertificateService {
     @Transactional
     public List<Certificate> getAllCertificates() {
         List<Certificate> list = certificateRepository.findAllByOrderByUploadedAtDesc();
-        // Check if list is empty or contains old dummy certificates
-        boolean hasDummy = list.isEmpty() || list.stream().anyMatch(c ->
+
+        // 1. Remove any dummy/sample certificates
+        List<Certificate> dummies = list.stream().filter(c ->
                 c.getTitle() != null && (c.getTitle().contains("Java SE 17 Developer")
                         || c.getTitle().contains("AWS Certified Solutions")
                         || c.getTitle().contains("Spring Boot & Microservices Masterclass")
-                        || c.getTitle().contains("Add Your Certificate Title"))
-        );
+                        || c.getTitle().contains("Add Your Certificate Title")
+                        || c.getTitle().contains("Temporary Cert"))
+        ).toList();
 
-        if (hasDummy) {
-            initDefaultCertificatesIfNotPresent();
-            return certificateRepository.findAllByOrderByUploadedAtDesc();
+        if (!dummies.isEmpty()) {
+            certificateRepository.deleteAll(dummies);
+            list = certificateRepository.findAllByOrderByUploadedAtDesc();
         }
+
+        // 2. Detect & remove duplicates by title and credential ID
+        Map<String, Certificate> uniqueByTitle = new LinkedHashMap<>();
+        Set<String> seenCredIds = new HashSet<>();
+        List<Certificate> duplicatesToDelete = new ArrayList<>();
+
+        for (Certificate c : list) {
+            String norm = normalizeTitle(c.getTitle());
+            String credId = (c.getCredentialId() != null) ? c.getCredentialId().replaceAll("[^a-zA-Z0-9]", "").toLowerCase() : "";
+
+            boolean isDup = false;
+            if (!norm.isEmpty() && uniqueByTitle.containsKey(norm)) {
+                isDup = true;
+            } else if (!credId.isEmpty() && seenCredIds.contains(credId)) {
+                isDup = true;
+            }
+
+            if (isDup) {
+                duplicatesToDelete.add(c);
+            } else {
+                if (!norm.isEmpty()) uniqueByTitle.put(norm, c);
+                if (!credId.isEmpty()) seenCredIds.add(credId);
+            }
+        }
+
+        if (!duplicatesToDelete.isEmpty()) {
+            certificateRepository.deleteAll(duplicatesToDelete);
+            log.info("Deleted {} duplicate certificates from database.", duplicatesToDelete.size());
+            list = new ArrayList<>(uniqueByTitle.values());
+        }
+
+        // 3. If empty, seed the 3 default real certificates
+        if (list.isEmpty()) {
+            initDefaultCertificatesIfNotPresent();
+            list = certificateRepository.findAllByOrderByUploadedAtDesc();
+        }
+
         return list;
     }
 
@@ -65,9 +103,9 @@ public class CertificateService {
         return opt;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public long getTotalCertificatesCount() {
-        return certificateRepository.count();
+        return getAllCertificates().size();
     }
 
     /**
@@ -143,45 +181,71 @@ public class CertificateService {
     }
 
     /**
-     * Seeds initial certificates if the repository is empty or has old dummy data.
+     * Seeds initial certificates if the repository is empty or has old dummy data / duplicates.
      */
     @Transactional
     public void initDefaultCertificatesIfNotPresent() {
-        boolean needsUpdate = false;
-        if (certificateRepository.count() == 0) {
-            needsUpdate = true;
-        } else {
-            List<Certificate> current = certificateRepository.findAll();
-            for (Certificate c : current) {
-                if (c.getTitle() != null && (c.getTitle().contains("Java SE 17 Developer")
+        List<Certificate> current = certificateRepository.findAll();
+
+        // 1. Remove any dummy/sample certificates
+        List<Certificate> dummies = current.stream().filter(c ->
+                c.getTitle() != null && (c.getTitle().contains("Java SE 17 Developer")
                         || c.getTitle().contains("AWS Certified Solutions")
                         || c.getTitle().contains("Spring Boot & Microservices Masterclass")
                         || c.getTitle().contains("Add Your Certificate Title")
-                        || c.getTitle().contains("Temporary Cert"))) {
-                    needsUpdate = true;
-                    break;
-                }
-            }
+                        || c.getTitle().contains("Temporary Cert"))
+        ).toList();
+
+        if (!dummies.isEmpty()) {
+            certificateRepository.deleteAll(dummies);
+            current = certificateRepository.findAll();
         }
 
-        if (needsUpdate) {
-            certificateRepository.deleteAll();
+        // 2. Remove duplicate titles and credentials
+        Map<String, Certificate> unique = new LinkedHashMap<>();
+        Set<String> seenCreds = new HashSet<>();
+        List<Certificate> dups = new ArrayList<>();
+        for (Certificate c : current) {
+            String norm = normalizeTitle(c.getTitle());
+            String credId = (c.getCredentialId() != null) ? c.getCredentialId().replaceAll("[^a-zA-Z0-9]", "").toLowerCase() : "";
+            
+            boolean isDup = false;
+            if (!norm.isEmpty() && unique.containsKey(norm)) {
+                isDup = true;
+            } else if (!credId.isEmpty() && seenCreds.contains(credId)) {
+                isDup = true;
+            }
 
+            if (isDup) {
+                dups.add(c);
+            } else {
+                if (!norm.isEmpty()) unique.put(norm, c);
+                if (!credId.isEmpty()) seenCreds.add(credId);
+            }
+        }
+        if (!dups.isEmpty()) {
+            certificateRepository.deleteAll(dups);
+            log.info("Removed {} duplicate certificates during init.", dups.size());
+            current = new ArrayList<>(unique.values());
+        }
+
+        // 3. If empty, seed the 3 real certificates
+        if (current.isEmpty()) {
             byte[] trainingPdf = loadCertificateBytesForFilename("TrainingCertificate.pdf");
             byte[] internPdf = loadCertificateBytesForFilename("InternCertificate.pdf");
             byte[] oracleImg = loadCertificateBytesForFilename("Certificate.jpeg");
 
             Certificate cert1 = new Certificate(
-                    "Java Spring Boot Summer Training",
-                    "Techpile Technology Pvt. Ltd., Lucknow",
-                    "2026",
-                    "TECHPILE-2026-A++",
-                    "https://www.techpile.in",
-                    "Completed a 45-day intensive Summer Training in Java Spring Boot, covering REST APIs, MVC architecture, database integration, and project development.",
-                    "TrainingCertificate.pdf",
-                    "application/pdf",
-                    trainingPdf.length > 0 ? (long) trainingPdf.length : 899780L,
-                    trainingPdf.length > 0 ? trainingPdf : createSampleCertificatePdf("Java Spring Boot Summer Training", "Altaf Hussain")
+                    "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate",
+                    "Oracle University",
+                    "October 01, 2025",
+                    "102799019OCI25AICFA",
+                    "https://education.oracle.com",
+                    "Demonstrates foundational knowledge of Artificial Intelligence, Machine Learning, Deep Learning, and Generative AI services on Oracle Cloud Infrastructure.",
+                    "Certificate.jpeg",
+                    "image/jpeg",
+                    oracleImg.length > 0 ? (long) oracleImg.length : 57774L,
+                    oracleImg.length > 0 ? oracleImg : createSampleCertificatePdf("Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate", "Altaf Hussain")
             );
 
             Certificate cert2 = new Certificate(
@@ -198,21 +262,26 @@ public class CertificateService {
             );
 
             Certificate cert3 = new Certificate(
-                    "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate",
-                    "Oracle University",
-                    "October 01, 2025",
-                    "102799019OCI25AICFA",
-                    "https://education.oracle.com",
-                    "Demonstrates foundational knowledge of Artificial Intelligence, Machine Learning, Deep Learning, and Generative AI services on Oracle Cloud Infrastructure.",
-                    "Certificate.jpeg",
-                    "image/jpeg",
-                    oracleImg.length > 0 ? (long) oracleImg.length : 57774L,
-                    oracleImg.length > 0 ? oracleImg : createSampleCertificatePdf("Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate", "Altaf Hussain")
+                    "Java Spring Boot Summer Training",
+                    "Techpile Technology Pvt. Ltd., Lucknow",
+                    "2026",
+                    "TECHPILE-2026-A++",
+                    "https://www.techpile.in",
+                    "Completed a 45-day intensive Summer Training in Java Spring Boot, covering REST APIs, MVC architecture, database integration, and project development.",
+                    "TrainingCertificate.pdf",
+                    "application/pdf",
+                    trainingPdf.length > 0 ? (long) trainingPdf.length : 899780L,
+                    trainingPdf.length > 0 ? trainingPdf : createSampleCertificatePdf("Java Spring Boot Summer Training", "Altaf Hussain")
             );
 
             certificateRepository.saveAll(List.of(cert1, cert2, cert3));
             log.info("Vercel-matched real certificates seeded successfully (3 records).");
         }
+    }
+
+    private String normalizeTitle(String title) {
+        if (title == null) return "";
+        return title.trim().toLowerCase().replaceAll("[^a-z0-9]", "");
     }
 
     private byte[] loadCertificateBytesForFilename(String filename) {

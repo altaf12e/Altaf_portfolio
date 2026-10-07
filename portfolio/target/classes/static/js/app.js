@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initStatsCounter();
     initTypingAnimation();
     initEmailActions();
+    initCertificateModal();
 });
 
 /* ================= Theme Toggle ================= */
@@ -316,5 +317,88 @@ function showEmailToast(email, subject) {
             toast.remove();
         }
     }, 10000);
+}
+
+/* ================= Certificate PDF/Image Modal ================= */
+function initCertificateModal() {
+    const modal = document.getElementById('pdfModal');
+    if (!modal) return;
+
+    const overlay = document.getElementById('pdfOverlay');
+    const closeBtn = document.getElementById('pdfClose');
+    const modalTitle = document.getElementById('pdfModalTitle');
+    const downloadBtn = document.getElementById('pdfDownloadBtn');
+    const pdfFrame = document.getElementById('pdfFrame');
+    const certImageFrame = document.getElementById('certImageFrame');
+    const fallbackLink = document.getElementById('pdfFallback');
+
+    function openModal(url, title, type) {
+        if (!url) return;
+        if (modalTitle) {
+            modalTitle.innerHTML = `<i class="fas fa-certificate"></i> ${title || 'Certificate Preview'}`;
+        }
+        if (downloadBtn) {
+            downloadBtn.href = url.replace('/view/', '/download/');
+        }
+
+        const isImage = (type === 'image') || /\.(jpeg|jpg|png|webp)(\?.*)?$/i.test(url);
+
+        if (isImage) {
+            if (pdfFrame) pdfFrame.style.display = 'none';
+            if (certImageFrame) {
+                certImageFrame.src = url;
+                certImageFrame.style.display = 'block';
+            }
+        } else {
+            if (certImageFrame) certImageFrame.style.display = 'none';
+            if (pdfFrame) {
+                pdfFrame.data = url;
+                pdfFrame.style.display = 'block';
+            }
+            if (fallbackLink) fallbackLink.href = url;
+        }
+
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+        if (pdfFrame) pdfFrame.data = '';
+        if (certImageFrame) certImageFrame.src = '';
+    }
+
+    // Bind all buttons and elements with .cert-view-btn
+    document.querySelectorAll('.cert-view-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const url = btn.getAttribute('data-url') || btn.getAttribute('href');
+            const title = btn.getAttribute('data-title') || 'Certificate';
+            const type = btn.getAttribute('data-type') || 'pdf';
+            openModal(url, title, type);
+        });
+    });
+
+    // Also support clicking card directly
+    document.querySelectorAll('.cert-card[data-file]').forEach(card => {
+        card.addEventListener('click', (e) => {
+            if (e.target.closest('a') || e.target.closest('button')) return;
+            const url = card.getAttribute('data-file');
+            const title = card.getAttribute('data-title') || 'Certificate';
+            const type = card.getAttribute('data-type') || 'pdf';
+            openModal(url, title, type);
+        });
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (overlay) overlay.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
 }
 
